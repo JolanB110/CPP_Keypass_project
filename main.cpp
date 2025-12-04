@@ -39,12 +39,14 @@ int main(){
                 break;
             }
 
-            while(rep!=4){
+            while(rep!=5){
+
                 std::cout << "--- Bienvenue (ajouter nom compte) ---" << '\n';
                 std::cout << "1 : Ajouter un mot de passe " << '\n';
                 std::cout << "2 : Rechercher un mot de passe " << '\n';
                 std::cout << "3 : Tester un mot de passe " << '\n';
-                std::cout << "4 : Se deconnecter " << '\n';
+                std::cout << "4 : Generer rapport d'utilisation " << '\n';
+                std::cout << "5 : Se deconnecter " << '\n';
                 std::cin >> rep;
 
                 if(rep==1){
@@ -68,7 +70,22 @@ int main(){
                 }
 
                 else if(rep==2){
-                    //rechercher un mot de passe
+
+                    while(rep!=3){
+                        std::cout << "--- Menu Recherche ---" << '\n';
+                        std::cout << "1 : Recherche par application : " << '\n' ;
+                        std::cout << "2 : Recherche par label : " << '\n' ;
+                        std::cout << "3 : Retour : " << '\n' ;
+                        std::cin >> rep;
+
+                        if(rep==1){
+                            //recherche par application : recherche_ecrite()
+                        }
+
+                        else if(rep==2){
+                            //recherche par label : recherche_label()
+                        }
+                    }
                 }
 
                 else if(rep==3){
