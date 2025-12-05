@@ -1,4 +1,5 @@
 #include "User.hpp"
+#include "Mdp.hpp"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -69,18 +70,20 @@ int main(){
                         std::cout << "--- Menu Ajout de Mot de passe ---" << '\n';
                         std::cout << "Entree l application associe au mot de passe: " << '\n' ;
                         std::cin >> nom;
-                        std::cout<< "1 : Entree votre mot de passe " << '\n';
-                        std::cout<< "2 : Generer un mot de passe " << '\n';
-                        std::cin >> mdp;
+                        std::cout<< "1 : Entree votre propre mot de passe " << '\n';
+                        std::cout<< "2 : Generer un mot de passe automatiquement" << '\n';
+                        std::cin >> rep;
 
-                        if(mdp=="2"){
+                        if(rep==2){
                             //mdp = mdpgenerator() <<< générer mdp aléatoire
-                            std::cout << "Voici votre nouveau mot de passe :" << mdp <<'\n';
-                            //enregistrer mdp
+                            std::cout << "Voici votre nouveau mot de passe :" << /*mdp <<*/ '\n';
+                            //ActualUser.getMdp().push_back(Mdp(nom, mdp));
                         }
 
                         else{
-                            //enregistre mdp
+                            std::cout<< "1 : Entree votre mot de passe " << '\n';
+                            std::cin >> mdp;
+                            ActualUser.getMdp().push_back(Mdp(nom, mdp));
                         }
                     }
 
