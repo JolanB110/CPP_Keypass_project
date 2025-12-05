@@ -1,10 +1,11 @@
+#include "User.hpp"
 #include <string>
 #include <vector>
 #include <iostream>
 
 int main(){
-    std::string nom;
-    std::string mdp;
+    std::vector<User> users;
+    std::string nom,mdp;
 
     int rep = -1;
 
@@ -25,6 +26,8 @@ int main(){
             std::cout<< "Entree votre mot de passe : " << '\n';
             std::cin >> mdp;
 
+            users.push_back(User(nom, mdp));
+
         }
         else if(rep==2){
 
@@ -41,7 +44,7 @@ int main(){
 
             while(rep!=5){
 
-                std::cout << "--- Bienvenue (ajouter nom compte) ---" << '\n';
+                std::cout << "--- Bienvenue"<< /*User.nom <<*/ " ---" << '\n';
                 std::cout << "1 : Ajouter un mot de passe " << '\n';
                 std::cout << "2 : Rechercher un mot de passe " << '\n';
                 std::cout << "3 : Tester un mot de passe " << '\n';
@@ -101,15 +104,14 @@ int main(){
             std::cout<< "Entree votre mot de passe : " << '\n';
             std::cin >> mdp;
 
-            //suppr_compte(nom,mdp) a faire
-
-            if(/*suppr_compte(nom,mdp)==0*/true){
-                std::cout << "Votre compte a bien ete supprime" << '\n';
+            for(int i=0; i<users.size();i++){
+                std::cout<< users[i].getUsername() << '\n';
+                if(users[i].verifConnexion(nom, mdp)){
+                    users.erase(users.begin() + i);
+                    std::cout << "Votre compte a bien ete supprime" << '\n';
+                    break;
+                }
             }
-            else{
-                std::cout << "Erreur dans la suppression de votre compte" << '\n';
-            }
-            
         }
     }
     std::cout << '\n' << "Merci de votre visite !!!" << '\n';
