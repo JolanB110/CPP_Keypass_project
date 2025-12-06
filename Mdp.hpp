@@ -21,6 +21,19 @@ public:
         return Password; 
     }
 
+    std::string mdpgenerator(){
+        std::string list="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKMNLOPQRSTUVWXYZ0123456789-_|[]{}()#&,;:!/.%$*¨^~?+=@èéàçù";
+        std::string mdp="";
+        
+        for(int i=0;i<16;i++){ //on veut 16 caractères dans notre mot de passe
+
+            int random = rand() % list.length(); //on génère un nombre aléatoire
+            mdp += list[random];                 //on l'ajouter au mot de passe
+
+        }
+        return mdp;
+    }
+
 };
 
 #endif

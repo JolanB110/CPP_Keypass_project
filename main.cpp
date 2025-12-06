@@ -5,11 +5,13 @@
 #include <iostream>
 
 int main(){
+
     std::vector<User> users;
     std::string nom,mdp;
     User ActualUser = User("","");
+    Mdp motdepasse = Mdp("","");
 
-    bool connexion_successful;
+    bool connexion_successful = false;
 
     int rep = -1;
 
@@ -75,9 +77,9 @@ int main(){
                         std::cin >> rep;
 
                         if(rep==2){
-                            //mdp = mdpgenerator() <<< générer mdp aléatoire
-                            std::cout << "Voici votre nouveau mot de passe :" << /*mdp <<*/ '\n';
-                            //ActualUser.getMdp().push_back(Mdp(nom, mdp));
+                            std::string mdp = motdepasse.mdpgenerator();
+                            std::cout << "Voici votre nouveau mot de passe :" << mdp << '\n';
+                            ActualUser.getMdp().push_back(Mdp(nom, mdp));
                         }
 
                         else{
@@ -98,6 +100,7 @@ int main(){
 
                             if(rep==1){
                                 //recherche par application : recherche_ecrite()
+
                             }
 
                             else if(rep==2){
@@ -120,11 +123,15 @@ int main(){
             std::cin >> mdp;
 
             for(int i=0; i<users.size();i++){
+
                 std::cout<< users[i].getUsername() << '\n';
+
                 if(users[i].verifConnexion(nom, mdp)){
+
                     users.erase(users.begin() + i);
                     std::cout << "Votre compte a bien ete supprime" << '\n';
                     break;
+
                 }
             }
         }
