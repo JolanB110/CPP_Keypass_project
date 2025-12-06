@@ -4,6 +4,8 @@
 #include <vector>
 #include <iostream>
 
+//BUG, quand rep==A ( par exemple ), une boucle infinie se lance, a regler.
+
 int main(){
 
     std::vector<User> users;
@@ -92,14 +94,31 @@ int main(){
                     else if(rep==2){
 
                         while(rep!=3){
+
+                            std::string recherche;
+
                             std::cout << "--- Menu Recherche ---" << '\n';
-                            std::cout << "1 : Recherche par application : " << '\n' ;
-                            std::cout << "2 : Recherche par label : " << '\n' ;
-                            std::cout << "3 : Retour : " << '\n' ;
+                            std::cout << "1 : Recherche par application" << '\n' ;
+                            std::cout << "2 : Recherche par label " << '\n' ;
+                            std::cout << "3 : Retour " << '\n' ;
                             std::cin >> rep;
 
                             if(rep==1){
-                                //recherche par application : recherche_ecrite()
+
+                                std::cout << "Entrer le nom de l application associe au mot de passe rechercher : " << '\n' ;
+                                std::cin >> recherche;
+
+                                for(int i=0; i<ActualUser.getMdp().size();i++){
+
+                                    if(ActualUser.getMdp()[i].getName() == recherche){
+
+                                        std::cout << "Mot de passe de l application " << recherche << " : "<<ActualUser.getMdp()[i].getPassword() << '\n';
+
+                                    }else{
+                                        std::cout << "Aucun mot de passe trouve, creer le mot de passe ou refaite une recherche" << '\n';
+                                    continue;
+                                    }
+                                }
 
                             }
 
