@@ -1,5 +1,6 @@
 #include "User.hpp"
 #include "Mdp.hpp"
+#include "PasswordTester.hpp"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -7,7 +8,6 @@
 //BUG, quand rep==A ( par exemple ), une boucle infinie se lance, a regler.
 
 int main(){
-
     std::vector<User> users;
     std::string nom,mdp;
     User ActualUser = User("","");
@@ -129,7 +129,19 @@ int main(){
                     }
 
                     else if(rep==3){
-                        //tester un mot de passe
+                        std::cout << "--- Testeur de mot de passe ---" << '\n';
+                        std::cout << "Entree le mot de passe a tester : " << '\n';
+                        std::cin >> mdp;
+                        
+                        PasswordTester tester(mdp);
+                        tester.displayReport();
+                        
+                        if(tester.isStrong()){
+                            std::cout << "Ce mot de passe est ACCEPTABLE !\n";
+                        } else {
+                            std::cout << "Ce mot de passe est TROP FAIBLE !\n";
+                        }
+                    }
                     }
                 }
         }
@@ -156,5 +168,4 @@ int main(){
         }
     }
     std::cout << '\n' << "Merci de votre visite !!!" << '\n';
-}
 }
