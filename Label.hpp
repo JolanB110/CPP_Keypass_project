@@ -9,10 +9,11 @@ public:
 
     std::string name;      
 
-private:
-    //Constructeur
     Label(const std::string& name);
-
+    
+    std::string getName() const { 
+        return name; 
+    }
 };
 
 #endif

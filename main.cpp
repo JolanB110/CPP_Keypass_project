@@ -14,6 +14,7 @@ int main(){
     std::string nom,mdp;
     User ActualUser = User("","");
     Mdp motdepasse = Mdp("","");
+    std::vector<Label> tag;
 
     bool connexion_successful = false;
 
@@ -61,14 +62,15 @@ int main(){
                     continue;
             }
             else if(connexion_successful==true){
-                while(rep!=5){
+                while(rep!=6){
 
                     std::cout << "--- Bienvenue "<< ActualUser.getUsername() << " ---" << '\n';
                     std::cout << "1 : Ajouter un mot de passe " << '\n';
-                    std::cout << "2 : Rechercher un mot de passe " << '\n';
-                    std::cout << "3 : Tester un mot de passe " << '\n';
-                    std::cout << "4 : Generer rapport d'utilisation " << '\n';
-                    std::cout << "5 : Se deconnecter " << '\n';
+                    std::cout << "2 : Ajouter un label " << '\n';
+                    std::cout << "3 : Rechercher un mot de passe " << '\n';
+                    std::cout << "4 : Tester un mot de passe " << '\n';
+                    std::cout << "5 : Generer rapport d'utilisation " << '\n';
+                    std::cout << "6 : Se deconnecter " << '\n';
                     std::cin >> rep;
 
                     if(rep==1){
@@ -92,10 +94,22 @@ int main(){
                             ActualUser.getMdp().push_back(Mdp(nom, mdp));
                         }
                     }
-
                     else if(rep==2){
+                        std::cout << "--- Menu Ajout de Label ---" << '\n';
+                        std::cout << "Entree le nom du label a creer : " << '\n' ;
+                        std::cin >> nom;
+                        std::cout << '\n' ;
 
-                        while(rep!=3){
+                        tag.push_back(Label(nom));
+                        for(int i=0; i<tag.size();i++){
+                            std::cout << tag[i].getName() << '\n';
+                        }
+                        rep=-1;
+                    }
+
+                    else if(rep==3){
+
+                        do{
 
                             std::string recherche;
 
@@ -127,7 +141,7 @@ int main(){
                             else if(rep==2){
                                 //recherche par label : recherche_label()
                             }
-                        }
+                        } while(rep!=3);
                     }
 
                     else if(rep==3){
