@@ -6,6 +6,8 @@
 #include <iostream>
 
 //BUG, quand rep==A ( par exemple ), une boucle infinie se lance, a regler.
+//La Suprression de compte ne fonctionne pas.
+
 
 int main(){
     std::vector<User> users;
