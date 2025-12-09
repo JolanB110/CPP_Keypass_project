@@ -9,7 +9,7 @@ public:
     std::string name;      
     std::string type;
     
-private:
+protected:
     //Constructeurs
     Application(const std::string& name, const std::string& type);
     Application(const std::string& name, const std::string& type, std::string mail);
