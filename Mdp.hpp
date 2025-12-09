@@ -8,10 +8,13 @@ class Mdp {
 public:
     std::string name;      
     std::string Password;
+    std::string label;
 
     Mdp(const std::string& name, const std::string& Password)
         : name(name), Password(Password) {}
-
+    
+    Mdp(const std::string& name, const std::string& Password, const std::string& label)
+        : name(name), Password(Password), label(label) {}
 
     std::string getName() const { 
         return name; 
@@ -19,6 +22,10 @@ public:
 
     std::string getPassword() const { 
         return Password; 
+    }
+
+    std::string getLabel() const {
+        return label;
     }
 
     std::string mdpgenerator(){

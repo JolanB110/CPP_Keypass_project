@@ -1,5 +1,7 @@
 #include "User.hpp"
 #include "Mdp.hpp"
+#include "Label.hpp"
+#include "Application.hpp"
 #include "PasswordTester.hpp"
 #include <string>
 #include <vector>
