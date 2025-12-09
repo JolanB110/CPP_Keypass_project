@@ -18,18 +18,21 @@ int main(){
 
     bool connexion_successful = false;
 
-    int rep = -1;
+    int rep_init = -1;
+    int rep_home = -1;
+    int rep_mdp = -1;
+    int rep_search = -1;
 
-    while (rep!=0)
+    while (rep_init!=0)
     {
         std::cout << "--- Menu Principal ---" << '\n';
         std::cout << "1 : Creer un compte " << '\n';
         std::cout << "2 : Se Connecter a un compte existant " << '\n';
         std::cout << "3 : Supprime un compte existant " << '\n';
         std::cout << "0 : Quitter l'application " << '\n';
-        std::cin >> rep;
+        std::cin >> rep_init;
 
-        if(rep==1){
+        if(rep_init==1){
 
             std::cout << "--- Menu Creation de compte ---" << '\n';
             std::cout << "Entree votre nom : " << '\n' ;
@@ -40,7 +43,7 @@ int main(){
             users.push_back(User(nom, mdp));
 
         }
-        else if(rep==2){
+        else if(rep_init==2){
 
             std::cout << "--- Menu Connexion ---" << '\n';
             std::cout << "Entree votre nom : " << '\n' ;
@@ -62,7 +65,7 @@ int main(){
                     continue;
             }
             else if(connexion_successful==true){
-                while(rep!=6){
+                while(rep_home!=6){
 
                     std::cout << "--- Bienvenue "<< ActualUser.getUsername() << " ---" << '\n';
                     std::cout << "1 : Ajouter un mot de passe " << '\n';
@@ -71,18 +74,18 @@ int main(){
                     std::cout << "4 : Tester un mot de passe " << '\n';
                     std::cout << "5 : Generer rapport d'utilisation " << '\n';
                     std::cout << "6 : Se deconnecter " << '\n';
-                    std::cin >> rep;
+                    std::cin >> rep_home;
 
-                    if(rep==1){
+                    if(rep_home==1){
 
                         std::cout << "--- Menu Ajout de Mot de passe ---" << '\n';
                         std::cout << "Entree l application associe au mot de passe: " << '\n' ;
                         std::cin >> nom;
                         std::cout<< "1 : Entree votre propre mot de passe " << '\n';
                         std::cout<< "2 : Generer un mot de passe automatiquement" << '\n';
-                        std::cin >> rep;
+                        std::cin >> rep_mdp;
 
-                        if(rep==2){
+                        if(rep_mdp==2){
                             std::string mdp = motdepasse.mdpgenerator();
                             std::cout << "Voici votre nouveau mot de passe :" << mdp << '\n';
                             ActualUser.getMdp().push_back(Mdp(nom, mdp));
@@ -94,7 +97,7 @@ int main(){
                             ActualUser.getMdp().push_back(Mdp(nom, mdp));
                         }
                     }
-                    else if(rep==2){
+                    else if(rep_home==2){
                         std::cout << "--- Menu Ajout de Label ---" << '\n';
                         std::cout << "Entree le nom du label a creer : " << '\n' ;
                         std::cin >> nom;
@@ -104,10 +107,10 @@ int main(){
                         for(int i=0; i<tag.size();i++){
                             std::cout << tag[i].getName() << '\n';
                         }
-                        rep=-1;
+                        rep_home=-1;
                     }
 
-                    else if(rep==3){
+                    else if(rep_home==3){
 
                         do{
 
@@ -117,9 +120,9 @@ int main(){
                             std::cout << "1 : Recherche par application" << '\n' ;
                             std::cout << "2 : Recherche par label " << '\n' ;
                             std::cout << "3 : Retour " << '\n' ;
-                            std::cin >> rep;
+                            std::cin >> rep_search;
 
-                            if(rep==1){
+                            if(rep_search==1){
 
                                 std::cout << "Entrer le nom de l application associe au mot de passe rechercher : " << '\n' ;
                                 std::cin >> recherche;
@@ -138,13 +141,13 @@ int main(){
 
                             }
 
-                            else if(rep==2){
+                            else if(rep_search==2){
                                 //recherche par label : recherche_label()
                             }
-                        } while(rep!=3);
+                        } while(rep_search !=3);
                     }
 
-                    else if(rep==3){
+                    else if(rep_home==4){
                         std::cout << "--- Testeur de mot de passe ---" << '\n';
                         std::cout << "Entree le mot de passe a tester : " << '\n';
                         std::cin >> mdp;
@@ -161,7 +164,7 @@ int main(){
                     }
                 }
         }
-        else if(rep==3){
+        else if(rep_init==3){
 
             std::cout << "--- Menu Suppression de compte ---" << '\n';
             std::cout << "Entree votre nom : " << '\n' ;
