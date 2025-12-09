@@ -9,8 +9,7 @@
 #include <iostream>
 
 //BUG, quand rep==A ( par exemple ), une boucle infinie se lance, a regler.
-//BUG, impossible de créer plusieurs comptes, a vérifier si on peut save un mdp sur un compte une fois le problème réglé.
-//BUG, si on se déconnecte, on ne peut plus se reconnecter, a regler.
+//TOCHECK, a vérifier si on peut save un mdp sur un compte une fois le problème réglé.
 
 int main(){
     std::vector<User> users;
@@ -166,6 +165,10 @@ int main(){
                     }
                     }
                 }
+                //fin de la connexion, réinitialisation des variables
+                connexion_successful = false;
+                rep_home = -1;
+                ActualUser = User("","");
         }
         else if(rep_init==3){
 
