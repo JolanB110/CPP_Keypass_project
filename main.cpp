@@ -6,8 +6,6 @@
 #include <iostream>
 
 //BUG, quand rep==A ( par exemple ), une boucle infinie se lance, a regler.
-//La Suprression de compte ne fonctionne pas.
-
 
 int main(){
     std::vector<User> users;
@@ -162,6 +160,7 @@ int main(){
                 if(users[i].verifConnexion(nom, mdp)){
 
                     users.erase(users.begin() + i);
+                    ActualUser = User("","");
                     std::cout << "Votre compte a bien ete supprime" << '\n';
                     break;
 
