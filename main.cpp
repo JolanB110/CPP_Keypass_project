@@ -16,7 +16,7 @@ int main(){
     std::vector<Data> data;
 
     std::vector<User> users;
-    std::string nom,mdp;
+    std::string nom,mdp,etiquette;
     User ActualUser = User("","");
     Mdp motdepasse = Mdp("","");
     std::vector<Label> tag;
@@ -29,7 +29,7 @@ int main(){
     int rep_search = -1;
 
     while (rep_init!=0){
-        
+
         std::cout << "--- Menu Principal ---" << '\n';
         std::cout << "1 : Creer un compte " << '\n';
         std::cout << "2 : Se Connecter a un compte existant " << '\n';
@@ -93,13 +93,40 @@ int main(){
                         if(rep_mdp==2){
                             std::string mdp = motdepasse.mdpgenerator();
                             std::cout << "Voici votre nouveau mot de passe :" << mdp << '\n';
-                            ActualUser.getMdp().push_back(Mdp(nom, mdp));
+                            ActualUser.getMdp().push_back(Mdp(nom, mdp, ""));
                         }
 
                         else{
                             std::cout<< "1 : Entree votre mot de passe " << '\n';
                             std::cin >> mdp;
-                            ActualUser.getMdp().push_back(Mdp(nom, mdp));
+                            ActualUser.getMdp().push_back(Mdp(nom, mdp, ""));
+                        }
+
+                        std::cout << "3 : Voulez vous ajouter un label a votre Mdp" << '\n';
+                        std::cout << "4 : Non, pas la peine" << '\n';
+                        std::cin >> etiquette;
+                        
+                        if(etiquette=="3"){
+
+                            std::cout << "Voici la liste de tout les labels :" << '\n';
+                            std::cout << "" << '\n';
+
+                            for (int i=0; i < tag.size(); i++)
+                            {
+                                std::cout << tag[i].name << '\n';
+                            }
+                            std::cout << "" << '\n';
+                            std::cout << "Entree le nom du label a associer a votre mot de passe : " << '\n' ;
+                            std::cin >> etiquette;
+
+                            for (int i=0; i < tag.size(); i++)
+                            {
+                                if(etiquette==tag[i].name){
+                                    ActualUser.getMdp().push_back(Mdp(nom, mdp, tag[i].name));
+                                    continue; //ajouter affichage label avec mdp pour vérifier si ça marche
+                                }
+                            }
+                            std::cout << "Le Label rentrer ne correspond a aucun label existant !" << '\n' ;
                         }
                     }
                     else if(rep_home==2){
@@ -108,11 +135,15 @@ int main(){
                         std::cin >> nom;
                         std::cout << '\n' ;
 
+                        //code en dessous a transformer en vérification d'existence
+
                         tag.push_back(Label(nom));
                         for(int i=0; i<tag.size();i++){
                             std::cout << tag[i].getName() << '\n';
                         }
                         rep_home=-1;
+
+                        //code au dessus a vérifier l'utilité 
                     }
 
                     else if(rep_home==3){
