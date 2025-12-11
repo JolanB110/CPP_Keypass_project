@@ -28,8 +28,8 @@ int main(){
     int rep_mdp = -1;
     int rep_search = -1;
 
-    while (rep_init!=0)
-    {
+    while (rep_init!=0){
+        
         std::cout << "--- Menu Principal ---" << '\n';
         std::cout << "1 : Creer un compte " << '\n';
         std::cout << "2 : Se Connecter a un compte existant " << '\n';

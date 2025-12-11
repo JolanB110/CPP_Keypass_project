@@ -3,11 +3,11 @@
 #include <fstream>
 #include <vector>
 
-void Save(const std::vector<Comptes>& Comptes, const std::vector<Label> tag) {
+void Save(const std::vector<Data>& Data, const std::vector<Label> tag) {
     std::ofstream write_output("Save.dat");
 
-    for (size_t i = 0; i < Comptes.size(); i++) {
-        write_output << Comptes[i].name << " " << Comptes[i].password << " " << Comptes[i].label << "\n";
+    for (size_t i = 0; i < Data.size(); i++) {
+        write_output << Data[i].name << " " << Data[i].password << " " << Data[i].label << "\n";
     }
 
     for (size_t i = 0; i < tag.size(); i++) {
