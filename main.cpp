@@ -8,10 +8,13 @@
 #include <vector>
 #include <iostream>
 
+
 //BUG, quand rep==A ( par exemple ), une boucle infinie se lance, a regler.
 //TOCHECK, a vérifier si on peut save un mdp sur un compte une fois le problème réglé.
 
 int main(){
+    std::vector<Data> data;
+
     std::vector<User> users;
     std::string nom,mdp;
     User ActualUser = User("","");
