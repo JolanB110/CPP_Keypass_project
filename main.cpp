@@ -183,6 +183,7 @@ int main(){
                                 std::cin >> recherche;
                                 LabelSearch::searchByLabel(ActualUser.getMdp(), recherche);
                             }
+                            // a peaufiner, peut être mieux a faire 
                         } while(rep_search !=3);
                     }
 
