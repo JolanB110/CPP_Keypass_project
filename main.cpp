@@ -4,6 +4,7 @@
 #include "Label.hpp"
 #include "Application.hpp"
 #include "PasswordTester.hpp"
+#include "search_label.hpp"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -178,7 +179,9 @@ int main(){
                             }
 
                             else if(rep_search==2){
-                                //recherche par label : recherche_label()
+                                std::cout << "Entrer le nom du label a rechercher : " << '\n';
+                                std::cin >> recherche;
+                                LabelSearch::searchByLabel(ActualUser.getMdp(), recherche);
                             }
                         } while(rep_search !=3);
                     }
