@@ -16,9 +16,12 @@
 int main(){
     std::vector<Data> data;
 
+    User* ActualUser = nullptr;
+
+    int User_used;
     std::vector<User> users;
     std::string nom,mdp,etiquette;
-    User ActualUser = User("","");
+    //User ActualUser = User("","");
     Mdp motdepasse = Mdp("","");
     std::vector<Label> tag;
 
@@ -60,7 +63,8 @@ int main(){
             for(int i=0; i<users.size();i++){
                 std::cout<< users[i].getUsername() << '\n';
                 if(users[i].verifConnexion(nom, mdp)){
-                    ActualUser = users[i];
+                    User_used = i;
+                    ActualUser = &users[User_used];
                     std::cout << "Connexion reussie" << '\n';
                     connexion_successful = true;
                     break;
@@ -73,7 +77,7 @@ int main(){
             else if(connexion_successful==true){
                 while(rep_home!=6){
 
-                    std::cout << "--- Bienvenue "<< ActualUser.getUsername() << " ---" << '\n';
+                    std::cout << "--- Bienvenue "<< ActualUser->getUsername() << " ---" << '\n';
                     std::cout << "1 : Ajouter un mot de passe " << '\n';
                     std::cout << "2 : Ajouter un label " << '\n';
                     std::cout << "3 : Rechercher un mot de passe " << '\n';
@@ -94,13 +98,13 @@ int main(){
                         if(rep_mdp==2){
                             std::string mdp = motdepasse.mdpgenerator();
                             std::cout << "Voici votre nouveau mot de passe :" << mdp << '\n';
-                            ActualUser.getMdp().push_back(Mdp(nom, mdp, ""));
+                            ActualUser->getMdp().push_back(Mdp(nom, mdp, ""));
                         }
 
                         else{
                             std::cout<< "1 : Entree votre mot de passe " << '\n';
                             std::cin >> mdp;
-                            ActualUser.getMdp().push_back(Mdp(nom, mdp, ""));
+                            ActualUser->getMdp().push_back(Mdp(nom, mdp, ""));
                         }
 
                         std::cout << "3 : Voulez vous ajouter un label a votre Mdp" << '\n';
@@ -123,7 +127,7 @@ int main(){
                             for (int i=0; i < tag.size(); i++)
                             {
                                 if(etiquette==tag[i].name){
-                                    ActualUser.getMdp().push_back(Mdp(nom, mdp, tag[i].name));
+                                    ActualUser->getMdp().push_back(Mdp(nom, mdp, tag[i].name));
                                     continue; //ajouter affichage label avec mdp pour vérifier si ça marche
                                 }
                             }
@@ -164,11 +168,11 @@ int main(){
                                 std::cout << "Entrer le nom de l application associe au mot de passe rechercher : " << '\n' ;
                                 std::cin >> recherche;
 
-                                for(int i=0; i<ActualUser.getMdp().size();i++){
+                                for(int i=0; i<ActualUser->getMdp().size();i++){
 
-                                    if(ActualUser.getMdp()[i].getName() == recherche){
+                                    if(ActualUser->getMdp()[i].getName() == recherche){
 
-                                        std::cout << "Mot de passe de l application " << recherche << " : "<<ActualUser.getMdp()[i].getPassword() << '\n';
+                                        std::cout << "Mot de passe de l application " << recherche << " : "<<ActualUser->getMdp()[i].getPassword() << '\n';
 
                                     }else{
                                         std::cout << "Aucun mot de passe trouve, creer le mot de passe ou refaite une recherche" << '\n';
@@ -181,7 +185,7 @@ int main(){
                             else if(rep_search==2){
                                 std::cout << "Entrer le nom du label a rechercher : " << '\n';
                                 std::cin >> recherche;
-                                LabelSearch::searchByLabel(ActualUser.getMdp(), recherche);
+                                LabelSearch::searchByLabel(ActualUser->getMdp(), recherche);
                             }
                             // a peaufiner, peut être mieux a faire 
                         } while(rep_search !=3);
@@ -206,7 +210,7 @@ int main(){
                 //fin de la connexion, réinitialisation des variables
                 connexion_successful = false;
                 rep_home = -1;
-                ActualUser = User("","");
+                User* ActualUser = nullptr;
         }
         else if(rep_init==3){
 
@@ -223,7 +227,7 @@ int main(){
                 if(users[i].verifConnexion(nom, mdp)){
 
                     users.erase(users.begin() + i);
-                    ActualUser = User("","");
+                    User* ActualUser = nullptr;
                     std::cout << "Votre compte a bien ete supprime" << '\n';
                     break;
 
