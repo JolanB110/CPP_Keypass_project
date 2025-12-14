@@ -53,12 +53,8 @@ int main(){
             std::cin >> nom;
             std::cout<< "Entree votre mot de passe : " << '\n';
             std::cin >> mdp;
-            /*if(mdp.length() < 4) {
-                std::cout << "Le mot de passe doit faire au moins 4 caractères !" << '\n';
-                continue;
-                }*/
-
             users.push_back(User(nom, mdp));
+            Save(users, tag);
 
         }
         else if(rep_init=="2"){
@@ -140,6 +136,7 @@ int main(){
                             std::string mdp = Mdp::mdpgenerator(16, true);
                             std::cout << "Voici votre nouveau mot de passe :" << mdp << '\n';
                             ActualUser->getMdp().push_back(Mdp(nom, mdp, ""));
+                            Save(users, tag);
                         }
 
                         else{
@@ -184,6 +181,7 @@ int main(){
                         //code en dessous a transformer en vérification d'existence
 
                         tag.push_back(Label(nom));
+                        Save(users, tag);
                         for(int i=0; i<tag.size();i++){
                             std::cout << tag[i].getName() << '\n';
                         }

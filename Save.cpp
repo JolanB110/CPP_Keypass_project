@@ -7,7 +7,7 @@
 #include <iostream>
 
 void Save(const std::vector<User>& users, const std::vector<Label> tag) {
-    std::ofstream file("Save.dat");
+    std::ofstream file("users.dat");
     if (!file.is_open()) {
         throw std::runtime_error("Could not open file for writing.");
     }
