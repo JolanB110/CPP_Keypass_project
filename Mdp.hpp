@@ -2,6 +2,8 @@
 #define MDP_HPP
 
 #include <string>
+#include <random>
+#include <algorithm>
 
 class Mdp {
 
@@ -28,19 +30,45 @@ public:
         return label;
     }
 
-    std::string mdpgenerator(){
-        std::string list="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKMNLOPQRSTUVWXYZ0123456789-_|[]{}()#&,;:!/.%$*¨^~?+=@èéàçù";
-        std::string mdp="";
-        
-        for(int i=0;i<16;i++){ //on veut 16 caractères dans notre mot de passe
-
-            int random = rand() % list.length(); //on génère un nombre aléatoire
-            mdp += list[random];                 //on l'ajouter au mot de passe
-
+    static std::string mdpgenerator(int length = 16, bool includeSpecial = true) {
+        std::string lowercase = "abcdefghijklmnopqrstuvwxyz";
+        std::string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        std::string numbers = "0123456789";
+        std::string special = "!@#$%^&*-_+=";
+    
+        std::string charset = lowercase + uppercase + numbers;
+        if (includeSpecial) {
+            charset += special;
+            }
+    
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, charset.length() - 1);
+    
+        std::string password;
+        for (int i = 0; i < length; i++) {
+            password += charset[dis(gen)];
         }
-        return mdp;
-    }
-
+        return password;
+}
 };
 
+/*
+ // Constructeurs
+    Mdp(const std::string& n, const std::string& p, const std::string& l = "")
+        : name(n), password(p), label(l) {}
+    
+    // Getters
+    std::string getName() const { return name; }
+    std::string getPassword() const { return password; }
+    std::string getLabel() const { return label; }
+    
+    // Setters avec validation
+    bool setPassword(const std::string& newPwd) {
+        if (newPwd.empty()) return false;
+        password = newPwd;
+        return true;
+    }
+};
+*/
 #endif

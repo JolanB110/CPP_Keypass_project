@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <limits>
 
 
 //BUG, quand rep==A ( par exemple ), une boucle infinie se lance, a regler.
@@ -21,6 +22,7 @@ int main(){
     User ActualUser = User("","");
     Mdp motdepasse = Mdp("","");
     std::vector<Label> tag;
+    // users = Import();
 
     bool connexion_successful = false;
 
@@ -37,6 +39,12 @@ int main(){
         std::cout << "3 : Supprime un compte existant " << '\n';
         std::cout << "0 : Quitter l'application " << '\n';
         std::cin >> rep_init;
+
+        if (!(std::cin>>rep_init)){
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            rep_init = -1;
+        }
 
         if(rep_init==1){
 
@@ -92,7 +100,7 @@ int main(){
                         std::cin >> rep_mdp;
 
                         if(rep_mdp==2){
-                            std::string mdp = motdepasse.mdpgenerator();
+                            std::string mdp = Mdp::mdpgenerator(16, true);
                             std::cout << "Voici votre nouveau mot de passe :" << mdp << '\n';
                             ActualUser.getMdp().push_back(Mdp(nom, mdp, ""));
                         }
@@ -203,6 +211,31 @@ int main(){
                     }
                     }
                 }
+                /* ajout d'une fonction pour suppr les mdp
+                else if (rep_home == 5) {
+                std::cout << "--- Suppression d'un mot de passe ---\n";
+                std::cout << "Mots de passe actuels :\n";
+                
+                auto& mdps = ActualUser.getMdp();
+                if (mdps.empty()) {
+                    std::cout << "Aucun mot de passe enregistré\n";
+                } else {
+                    for (size_t i = 0; i < mdps.size(); i++) {
+                        std::cout << i + 1 << ". " << mdps[i].getName() 
+                                << " [" << mdps[i].getLabel() << "]\n";
+                    }
+                    
+                    std::cout << "Entrez le numéro du mot de passe à supprimer :\n";
+                    int idx;
+                    if (std::cin >> idx && idx > 0 && idx <= static_cast<int>(mdps.size())) {
+                        mdps.erase(mdps.begin() + idx - 1);
+                        std::cout << "Mot de passe supprimé avec succès\n";
+                        Save(users);  // Sauvegarder les changements
+                    } else {
+                        std::cout << "Sélection invalide\n";
+                    }
+                }
+            }*/
                 //fin de la connexion, réinitialisation des variables
                 connexion_successful = false;
                 rep_home = -1;

@@ -23,7 +23,17 @@ public:
     std::vector<Mdp>& getMdp() {
         return mdp; 
     }
-    
+    bool changeMasterPassword(const std::string& oldPassword, 
+                         const std::string& newPassword) {
+    if (oldPassword != masterPassword) {
+        return false;  // L'ancien mot de passe est incorrect
+    }
+    if (newPassword.empty()) {
+        return false;  // Le nouveau mot de passe ne peut pas être vide
+    }
+    masterPassword = newPassword;
+    return true;
+}
 };
 
 #endif
