@@ -38,13 +38,13 @@ int main(){
         std::cout << "2 : Se Connecter a un compte existant " << '\n';
         std::cout << "3 : Supprime un compte existant " << '\n';
         std::cout << "0 : Quitter l'application " << '\n';
-        std::cin >> rep_init;
 
-        if (!(std::cin>>rep_init)){
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            rep_init = "-1";
-        }
+        if (!(std::cin >> rep_init)) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        rep_init = "-1";
+        continue;
+    }
 
         if(rep_init=="1"){
 
