@@ -100,6 +100,38 @@ int main(){
                         std::cout << "--- Menu Ajout de Mot de passe ---" << '\n';
                         std::cout << "Entree l application associe au mot de passe: " << '\n' ;
                         std::cin >> nom;
+                        /*std::cout << "Type d'application : " << '\n';  potentiel idée pour les applications
+                        std::cout << "1 : Email" << '\n';
+                        std::cout << "2 : Bancaire" << '\n';
+                        std::cout << "3 : Autre" << '\n';
+                        std::string appType;
+                        std::cin >> appType;
+                        
+                        // Créer l'objet Application approprié
+                        Application* app = nullptr;
+                        
+                        if(appType == "1") {
+                            std::string email;
+                            std::cout << "Entrez l'email: " << '\n';
+                            std::cin >> email;
+                            app = new EmailApplication(nom, "Email", email);
+                        }
+                        else if(appType == "2") {
+                            int cardNum, cvv;
+                            std::string expDate;
+                            std::cout << "Numéro de carte: " << '\n';
+                            std::cin >> cardNum;
+                            std::cout << "CVV: " << '\n';
+                            std::cin >> cvv;
+                            std::cout << "Date d'expiration: " << '\n';
+                            std::cin >> expDate;
+                            app = new BankApplication(nom, "Bancaire", cardNum, cvv, expDate);
+                        }
+                        
+                        // Valider et afficher
+                        if(app != nullptr) {
+                            if(app->validate()) {
+                                app->displayInfo();  / Appel polymorphe !*/
                         std::cout<< "1 : Entree votre propre mot de passe " << '\n';
                         std::cout<< "2 : Generer un mot de passe automatiquement" << '\n';
                         std::cin >> rep_mdp;
