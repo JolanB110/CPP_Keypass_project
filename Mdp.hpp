@@ -53,22 +53,4 @@ public:
 }
 };
 
-/*
- // Constructeurs
-    Mdp(const std::string& n, const std::string& p, const std::string& l = "")
-        : name(n), password(p), label(l) {}
-    
-    // Getters
-    std::string getName() const { return name; }
-    std::string getPassword() const { return password; }
-    std::string getLabel() const { return label; }
-    
-    // Setters avec validation
-    bool setPassword(const std::string& newPwd) {
-        if (newPwd.empty()) return false;
-        password = newPwd;
-        return true;
-    }
-};
-*/
 #endif
