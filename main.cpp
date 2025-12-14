@@ -53,6 +53,10 @@ int main(){
             std::cin >> nom;
             std::cout<< "Entree votre mot de passe : " << '\n';
             std::cin >> mdp;
+            /*if(mdp.length() < 4) {
+                std::cout << "Le mot de passe doit faire au moins 4 caractères !" << '\n';
+                continue;
+                }*/
 
             users.push_back(User(nom, mdp));
 
