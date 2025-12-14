@@ -212,31 +212,7 @@ int main(){
                     }
                     }
                 }
-                /* ajout d'une fonction pour suppr les mdp
-                else if (rep_home == 5) {
-                std::cout << "--- Suppression d'un mot de passe ---\n";
-                std::cout << "Mots de passe actuels :\n";
-                
-                auto& mdps = ActualUser.getMdp();
-                if (mdps.empty()) {
-                    std::cout << "Aucun mot de passe enregistré\n";
-                } else {
-                    for (size_t i = 0; i < mdps.size(); i++) {
-                        std::cout << i + 1 << ". " << mdps[i].getName() 
-                                << " [" << mdps[i].getLabel() << "]\n";
-                    }
-                    
-                    std::cout << "Entrez le numéro du mot de passe à supprimer :\n";
-                    int idx;
-                    if (std::cin >> idx && idx > 0 && idx <= static_cast<int>(mdps.size())) {
-                        mdps.erase(mdps.begin() + idx - 1);
-                        std::cout << "Mot de passe supprimé avec succès\n";
-                        Save(users);  // Sauvegarder les changements
-                    } else {
-                        std::cout << "Sélection invalide\n";
-                    }
-                }
-            }*/
+            
                 //fin de la connexion, réinitialisation des variables
                 connexion_successful = false;
                 rep_home = -1;
