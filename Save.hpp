@@ -10,8 +10,11 @@ struct Data {
     std::string label;
 };
 
-void Save(const std::vector<Data>& users);
+class User;
+class Label;
 
-std::vector<Data> Import();
+void Save(const std::vector<User>& users, const std::vector<Label> tag);
+std::vector<User> Import();
+
 
 #endif

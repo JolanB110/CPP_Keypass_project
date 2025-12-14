@@ -22,7 +22,7 @@ int main(){
     //User ActualUser = User("","");
     Mdp motdepasse = Mdp("","");
     std::vector<Label> tag;
-    // users = Import();
+    users = Import();
 
     bool connexion_successful = false;
 

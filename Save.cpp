@@ -3,44 +3,32 @@
 #include "User.hpp"
 #include <fstream>
 #include <vector>
+#include <sstream>
+#include <iostream>
 
-void Save(const std::vector<Data>& Data, const std::vector<Label> tag) {
-    std::ofstream write_output("Save.dat");
-
-    for (size_t i = 0; i < Data.size(); i++) {
-        write_output << Data[i].name << " " << Data[i].password << " " << Data[i].label << "\n";
-    }
-
-    for (size_t i = 0; i < tag.size(); i++) {
-        write_output << tag[i].getName() << "\n";
-    }
-
-    write_output.close();
-}
-
-/*
-
-void Save(const std::vector<User>& users) {
-    std::ofstream file("users.dat");
+void Save(const std::vector<User>& users, const std::vector<Label> tag) {
+    std::ofstream file("Save.dat");
     if (!file.is_open()) {
-        std::cerr << "Erreur : impossible d'ouvrir le fichier de sauvegarde\n";
-        return;
+        throw std::runtime_error("Could not open file for writing.");
     }
-    
+
     for (const auto& user : users) {
-        // Format : username|masterPassword|nbMdp
         file << user.getUsername() << "|" << user.getMasterPassword() << "|" 
              << user.getMdp().size() << "\n";
         
+        // Sauvegarder les mots de passe de cet utilisateur
         for (const auto& mdp : user.getMdp()) {
             file << mdp.getName() << "|" << mdp.getPassword() << "|" 
                  << mdp.getLabel() << "\n";
         }
     }
+    file << "---LABELS---\n";
+    for (size_t i = 0; i < tag.size(); i++) {
+        file << tag[i].getName() << "\n";
+    }
+    
     file.close();
-    std::cout << "Données sauvegardées avec succès\n";
 }
-
 std::vector<User> Import() {
     std::vector<User> users;
     std::ifstream file("users.dat");
@@ -52,7 +40,7 @@ std::vector<User> Import() {
     
     std::string line;
     while (std::getline(file, line)) {
-        if (line.empty()) continue;
+        if (line.empty() || line == "---LABELS---") continue;
         
         // Parser la ligne utilisateur
         size_t pos1 = line.find('|');
@@ -68,6 +56,11 @@ std::vector<User> Import() {
             // Charger les mots de passe associés
             for (int i = 0; i < nbMdp; i++) {
                 if (std::getline(file, line)) {
+                    if (line == "---LABELS---") {
+                        // On a atteint la section labels, on sort
+                        break;
+                    }
+                    
                     size_t p1 = line.find('|');
                     size_t p2 = line.find('|', p1 + 1);
                     
@@ -88,4 +81,5 @@ std::vector<User> Import() {
     std::cout << "Données chargées depuis la sauvegarde\n";
     return users;
 }
-    */
+
+

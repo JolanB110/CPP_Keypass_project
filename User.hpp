@@ -19,8 +19,13 @@ public:
     std::string getUsername() const {
         return username; 
     }
-
+    std::string getMasterPassword() const {
+        return masterPassword; 
+    }
     std::vector<Mdp>& getMdp() {
+        return mdp; 
+    }
+    const std::vector<Mdp>& getMdp() const {
         return mdp; 
     }
     bool changeMasterPassword(const std::string& oldPassword, 
