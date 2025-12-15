@@ -224,7 +224,7 @@ int main(){
                 }
                 else if(rep_home=="2"){
                     std::cout << "\n--- Menu Ajout de Label ---" << '\n';
-                    std::cout << "Entree le nom du label a creer : " << '\n' ;
+                    std::cout << "Entree le nom du label a creer : ";
                     std::getline(std::cin, nom);
                     std::cout << '\n' ;
                     
@@ -260,6 +260,7 @@ int main(){
                         std::cout << "2 : Recherche par label " << '\n' ;
                         std::cout << "3 : Retour " << '\n' ;
                         std::cin >> rep_search;
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
                         if(rep_search=="1"){
 
@@ -290,7 +291,7 @@ int main(){
                 else if(rep_home=="4"){
                     std::cout << "\n--- Testeur de mot de passe ---" << '\n';
                     std::cout << "Entree le mot de passe a tester : " << '\n';
-                    std::cin >> mdp;
+                    std::getline(std::cin, mdp);
                         
                     PasswordTester tester(mdp);
                     tester.displayReport();
