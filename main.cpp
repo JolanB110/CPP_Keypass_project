@@ -194,7 +194,7 @@ int main(){
                         bool found = false;
                         for (int i=0; i < tag.size(); i++)
                         {
-                            if(etiquette==tag[i].name){
+                            if(etiquette==tag[i].getName()){
                                 ActualUser->getMdp().pop_back(); //enlever le mdp sans label ajouté juste avant
                                 ActualUser->getMdp().push_back(Mdp(nom, mdp, tag[i].name));
                                 found = true;
@@ -203,6 +203,7 @@ int main(){
                         }
                         if(!found){
                         std::cout << "Le Label rentrer ne correspond a aucun label existant !" << '\n' ;
+                        ActualUser->getMdp().pop_back(); // enleve si erreur de label
                         }
                     }
                     Save(users, tag);
@@ -215,17 +216,26 @@ int main(){
                     std::cout << "Entree le nom du label a creer : " << '\n' ;
                     std::cin >> nom;
                     std::cout << '\n' ;
-
-                    //code en dessous a transformer en vérification d'existence
-
-                    tag.push_back(Label(nom));
-                    Save(users, tag);
-                    for(int i=0; i<tag.size();i++){
-                        std::cout << tag[i].getName() << '\n';
+                    
+                    bool label_existant = false;
+                    for (const auto& l : tag) {
+                        if (l.getName() == nom) {
+                            label_existant = true;
+                            std::cout<<"Un label avec ce nom existe deja."<<'\n';
+                            break;
+                        }
                     }
-                    rep_home="-1";
-
-                        //code au dessus a vérifier l'utilité 
+                    if(!label_existant){
+                        tag.push_back(Label(nom));
+                        std::cout<<("Label cree .")<<'\n';
+                        Save(users, tag);
+                        std::cout << "Liste des labels actuels :" << '\n';
+                        for (size_t i = 0; i < tag.size(); ++i) {
+                            std::cout << "- " << tag[i].getName() << '\n';
+                        }
+                    }
+                    
+                    //code en dessous a transformer en vérification d'existence
                 }
 
                 else if(rep_home=="3"){
