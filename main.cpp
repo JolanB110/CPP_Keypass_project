@@ -41,16 +41,16 @@ int main(){
         std::cout << "0 : Quitter l'application " << '\n';
 
         if (!(std::cin >> rep_init)) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        rep_init = "-1";
-        continue;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            rep_init = "-1";
+            continue;
         }
-
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         if(rep_init=="1"){
             std::cout << "\n--- Menu Creation de compte ---" << '\n';
             std::cout << "Entree votre nom : " << '\n' ;
-            std::cin >> nom;
+            std::getline(std::cin, nom);
 
             // Vérification de l'existence du compte
             bool compte_existant = false;
