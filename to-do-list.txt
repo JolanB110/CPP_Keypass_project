@@ -5,4 +5,4 @@ fludifier échange
 l'execution
 -message erreur label afficher meme
 lorsqu'on a pas d'erreur
--
+-vérifier qu'on ne puisse pas créer 2 compte avec le mm nom

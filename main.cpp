@@ -45,7 +45,7 @@ int main(){
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         rep_init = "-1";
         continue;
-    }
+        }
 
         if(rep_init=="1"){
 
@@ -125,9 +125,11 @@ int main(){
                         }
                         
                         // Valider et afficher
-                        if(app != nullptr) {
-                            if(app->validate()) {
-                                app->displayInfo();
+                        if(app != nullptr && app->validate()) {
+                            app->displayInfo();
+                        }
+
+                        // Toujours demander le mot de passe et le label, même si appType == "3"
                         std::cout<< "1 : Entree votre propre mot de passe " << '\n';
                         std::cout<< "2 : Generer un mot de passe automatiquement" << '\n';
                         std::cin >> rep_mdp;
@@ -138,7 +140,6 @@ int main(){
                             ActualUser->getMdp().push_back(Mdp(nom, mdp, ""));
                             Save(users, tag);
                         }
-
                         else{
                             std::cout<< "1 : Entree votre mot de passe " << '\n';
                             std::cin >> mdp;
@@ -148,8 +149,7 @@ int main(){
                         std::cout << "3 : Voulez vous ajouter un label a votre Mdp" << '\n';
                         std::cout << "4 : Non, pas la peine" << '\n';
                         std::cin >> etiquette;
-
-                        }
+                        
                         if(etiquette=="3"){
 
                             std::cout << "Voici la liste de tout les labels :" << '\n';
@@ -186,7 +186,7 @@ int main(){
                         for(int i=0; i<tag.size();i++){
                             std::cout << tag[i].getName() << '\n';
                         }
-                        rep_home=-1;
+                        rep_home="-1";
 
                         //code au dessus a vérifier l'utilité 
                     }
@@ -244,39 +244,37 @@ int main(){
                             std::cout << "Ce mot de passe est TROP FAIBLE !\n";
                         }
                     }
-                    }
                 }
+            
             
                 //fin de la connexion, réinitialisation des variables
                 connexion_successful = false;
-                rep_home = -1;
+                rep_home = "-1";
                 ActualUser = nullptr;
                 }
-            
         }
-        else if(rep_init=="3"){
+            else if(rep_init=="3"){
 
-            std::cout << "--- Menu Suppression de compte ---" << '\n';
-            std::cout << "Entree votre nom : " << '\n' ;
-            std::cin >> nom;
-            std::cout<< "Entree votre mot de passe : " << '\n';
-            std::cin >> mdp;
+                std::cout << "--- Menu Suppression de compte ---" << '\n';
+                std::cout << "Entree votre nom : " << '\n' ;
+                std::cin >> nom;
+                std::cout<< "Entree votre mot de passe : " << '\n';
+                std::cin >> mdp;
 
-            for(int i=0; i<users.size();i++){
+                for(int i=0; i<users.size();i++){
 
-                std::cout<< users[i].getUsername() << '\n';
+                    std::cout<< users[i].getUsername() << '\n';
 
-                if(users[i].verifConnexion(nom, mdp)){
+                    if(users[i].verifConnexion(nom, mdp)){
 
-                    users.erase(users.begin() + i);
-                    User* ActualUser = nullptr;
-                    std::cout << "Votre compte a bien ete supprime" << '\n';
-                    break;
-
+                        users.erase(users.begin() + i);
+                        ActualUser = nullptr;
+                        std::cout << "Votre compte a bien ete supprime" << '\n';
+                        break;
+                    }
                 }
             }
-        }
-        else if(rep_init=="4"){
+            else if(rep_init=="4"){
             std::cout << "Reset de toutes les donnees en cours..." << '\n';
             users.clear();
             tag.clear();
