@@ -80,15 +80,14 @@ int main(){
                     continue;
             }
             else if(connexion_successful==true){
-                while(rep_home!="6"){
+                while(rep_home!="5"){
 
                     std::cout << "--- Bienvenue "<< ActualUser->getUsername() << " ---" << '\n';
                     std::cout << "1 : Ajouter un mot de passe " << '\n';
                     std::cout << "2 : Ajouter un label " << '\n';
                     std::cout << "3 : Rechercher un mot de passe " << '\n';
                     std::cout << "4 : Tester un mot de passe " << '\n';
-                    std::cout << "5 : Generer rapport d'utilisation " << '\n';
-                    std::cout << "6 : Se deconnecter " << '\n';
+                    std::cout << "5 : Se deconnecter " << '\n';
                     std::cin >> rep_home;
 
                     if(rep_home=="1"){
