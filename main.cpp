@@ -230,7 +230,6 @@ int main(){
                             // a peaufiner, peut être mieux a faire 
                         } while(rep_search !="3");
                     }
-
                     else if(rep_home=="4"){
                         std::cout << "--- Testeur de mot de passe ---" << '\n';
                         std::cout << "Entree le mot de passe a tester : " << '\n';
@@ -278,11 +277,11 @@ int main(){
             }
         }
         else if(rep_init=="4"){
-            std::cout << "Reset de toutes les données en cours..." << '\n';
+            std::cout << "Reset de toutes les donnees en cours..." << '\n';
             users.clear();
             tag.clear();
             Save(users, tag);
-            std::cout << "Toutes les données ont été réinitialisées." << '\n';
+            std::cout << "Toutes les donnees ont ete reinitialisees." << '\n';
         }
     }
     std::cout << '\n' << "Merci de votre visite !!!" << '\n';
