@@ -37,6 +37,7 @@ int main(){
         std::cout << "1 : Creer un compte " << '\n';
         std::cout << "2 : Se Connecter a un compte existant " << '\n';
         std::cout << "3 : Supprime un compte existant " << '\n';
+        std::cout << "4 : <Admin> Reset Data" << '\n';
         std::cout << "0 : Quitter l'application " << '\n';
 
         if (!(std::cin >> rep_init)) {
@@ -275,6 +276,13 @@ int main(){
 
                 }
             }
+        }
+        else if(rep_init=="4"){
+            std::cout << "Reset de toutes les données en cours..." << '\n';
+            users.clear();
+            tag.clear();
+            Save(users, tag);
+            std::cout << "Toutes les données ont été réinitialisées." << '\n';
         }
     }
     std::cout << '\n' << "Merci de votre visite !!!" << '\n';
