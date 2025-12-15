@@ -2,7 +2,9 @@
 #define APPLICATION_HPP
 
 #include <string>
+#include <iostream>
 
+/* Ancienne version de la classe Application, a garder pour référence
 class Application {
 
 public:
@@ -23,7 +25,9 @@ protected:
     std::string date_expiration;
 };
 
-/*class Application {
+*/
+
+class Application {
 protected:
     std::string name;
     std::string type;
@@ -32,20 +36,17 @@ protected:
 
 public:
     Application(const std::string& name, const std::string& type);
-    virtual ~Application() = default;  //  Destructeur virtuel
-    
-    // Méthode virtuelle : afficher les informations
+    virtual ~Application() = default;
+
     virtual void displayInfo() const {
         std::cout << "Application: " << name << " (" << type << ")" << '\n';
     }
     
-    // Méthode virtuelle : valider les données
-    virtual bool validate() const = 0;  // Méthode pure virtuelle
+    virtual bool validate() const = 0;
     
     std::string getName() const { return name; }
 };
 
-// Classe dérivée pour les applications avec email
 class EmailApplication : public Application {
 private:
     std::string mailAddress;
@@ -64,7 +65,6 @@ public:
     }
 };
 
-// Classe dérivée pour les applications bancaires
 class BankApplication : public Application {
 private:
     int cardNumber;
@@ -84,5 +84,5 @@ public:
         return cardNumber > 0 && cvv > 0 && !expirationDate.empty();
     }
 };
-*/
+
 #endif

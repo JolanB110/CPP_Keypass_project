@@ -95,7 +95,7 @@ int main(){
                         std::cout << "--- Menu Ajout de Mot de passe ---" << '\n';
                         std::cout << "Entree l application associe au mot de passe: " << '\n' ;
                         std::cin >> nom;
-                        /*std::cout << "Type d'application : " << '\n';  potentiel idée pour les applications
+                        std::cout << "Type d'application : " << '\n';
                         std::cout << "1 : Email" << '\n';
                         std::cout << "2 : Bancaire" << '\n';
                         std::cout << "3 : Autre" << '\n';
@@ -107,18 +107,18 @@ int main(){
                         
                         if(appType == "1") {
                             std::string email;
-                            std::cout << "Entrez l'email: " << '\n';
+                            std::cout << "Entrez l email: " << '\n';
                             std::cin >> email;
                             app = new EmailApplication(nom, "Email", email);
                         }
                         else if(appType == "2") {
                             int cardNum, cvv;
                             std::string expDate;
-                            std::cout << "Numéro de carte: " << '\n';
+                            std::cout << "Numero de carte: " << '\n';
                             std::cin >> cardNum;
                             std::cout << "CVV: " << '\n';
                             std::cin >> cvv;
-                            std::cout << "Date d'expiration: " << '\n';
+                            std::cout << "Date d expiration: " << '\n';
                             std::cin >> expDate;
                             app = new BankApplication(nom, "Bancaire", cardNum, cvv, expDate);
                         }
@@ -126,7 +126,7 @@ int main(){
                         // Valider et afficher
                         if(app != nullptr) {
                             if(app->validate()) {
-                                app->displayInfo();  / Appel polymorphe !*/
+                                app->displayInfo();
                         std::cout<< "1 : Entree votre propre mot de passe " << '\n';
                         std::cout<< "2 : Generer un mot de passe automatiquement" << '\n';
                         std::cin >> rep_mdp;
@@ -147,7 +147,8 @@ int main(){
                         std::cout << "3 : Voulez vous ajouter un label a votre Mdp" << '\n';
                         std::cout << "4 : Non, pas la peine" << '\n';
                         std::cin >> etiquette;
-                        
+
+                        }
                         if(etiquette=="3"){
 
                             std::cout << "Voici la liste de tout les labels :" << '\n';
@@ -249,7 +250,9 @@ int main(){
                 //fin de la connexion, réinitialisation des variables
                 connexion_successful = false;
                 rep_home = -1;
-                User* ActualUser = nullptr;
+                ActualUser = nullptr;
+                }
+            
         }
         else if(rep_init=="3"){
 
