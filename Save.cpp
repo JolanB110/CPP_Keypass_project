@@ -16,7 +16,7 @@ void Save(const std::vector<User>& users, const std::vector<Label> tag) {
         file << user.getUsername() << "|" << user.getMasterPassword() << "|" 
              << user.getMdp().size() << "\n";
         
-        // Sauvegarder les mots de passe de cet utilisateur
+        //on sauvegarde les mots de passe de cet utilisateur
         for (const auto& mdp : user.getMdp()) {
             file << mdp.getName() << "|" << mdp.getPassword() << "|" 
                  << mdp.getLabel() << "\n";
@@ -34,7 +34,7 @@ std::vector<User> Import() {
     std::ifstream file("users.dat");
     
     if (!file.is_open()) {
-        std::cout << "Aucun fichier de sauvegarde trouvé. Nouveau fichier créé au premier enregistrement.\n";
+        std::cout << "Aucun fichier de sauvegarde trouver. Nouveau fichier creer au premier enregistrement.\n";
         return users;
     }
     
@@ -42,7 +42,6 @@ std::vector<User> Import() {
     while (std::getline(file, line)) {
         if (line.empty() || line == "---LABELS---") continue;
         
-        // Parser la ligne utilisateur
         size_t pos1 = line.find('|');
         size_t pos2 = line.find('|', pos1 + 1);
         
@@ -53,11 +52,11 @@ std::vector<User> Import() {
             
             User user(username, password);
             
-            // Charger les mots de passe associés
+            //on charge les mots de passe associés
             for (int i = 0; i < nbMdp; i++) {
                 if (std::getline(file, line)) {
                     if (line == "---LABELS---") {
-                        // On a atteint la section labels, on sort
+                        //et quand on atteint la section labels, on sort
                         break;
                     }
                     
@@ -78,7 +77,7 @@ std::vector<User> Import() {
         }
     }
     file.close();
-    std::cout << "Données chargées depuis la sauvegarde\n";
+    std::cout << "Donnees chargees depuis la sauvegarde\n";
     return users;
 }
 
