@@ -1,0 +1,72 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+\title{Livrable 1 : Synopsis du projet C++}
+\author{BUISSET Jolan, MOREL Ethan}
+\date{2 Décembre 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Intitulé du projet}
+
+Nous avons choisi de développer un gestionnaire de mots de passe de type KeyPass.
+Notre application permettra à l’utilisateur de ne retenir qu’un seul mot de passe « maître » complexe, lui donnant ensuite accès à l’ensemble de ses mots de passe, qui pourront être très longs et sécurisés, puisqu’il n’aura pas besoin de les mémoriser individuellement.
+
+Notre application sera dotée de plusieurs fonctionnalités diverses.
+
+\section{Fonctionnalités essentielles}
+
+\begin{enumerate}
+    \item \textbf{Création d’un compte utilisateur} :  
+    Il sera possible de créer un ou plusieurs comptes, chacun protégé par un nom d’utilisateur et un mot de passe maître.
+
+    \item \textbf{Ajout et suppression d’un mot de passe} :  
+    L’utilisateur pourra ajouter un mot de passe associé à un site ou une application, ainsi que le supprimer en cas de fermeture de compte.
+
+    \item \textbf{Changement de mot de passe} :
+    Si l'utilisateur souhaite changer de mot de passe, il pourra le faire sans supprimer puis recréer un mot de passe spécifique.
+
+    \item \textbf{Recherche d'un mot de passe} :
+    Un outils de recherche permettra de recherche un mot de passe de part le nom du site/application au lieu de chercher si le nombre de mot de passe devient important.    
+    
+    \item \textbf{Rangement de mot de passe} :
+    Possibilité d'ajouter des labels au mot de passe pour les trier entre eux.
+
+    \item \textbf{Création/suppression de label} :
+    L'utilisateur pourra créer et supprimer des labels personnalisé.
+
+        \item \textbf{Chiffrement des mots de passe} :
+    Une fonction de Chiffrement et de déchiffrement pourra être mis en place afin de protéger les mots de passes de potentiels attaques.
+
+\end{enumerate}
+ 
+\section{Fonctionnalités complémentaires}
+
+\begin{enumerate}
+    \item \textbf{Testeur de sécurité d'un mot de passe} :
+    L'utilisateur pourra tester un mot de passe afin de connaître sa robustesse face au outils de brute-force par exemple.
+
+    \item \textbf{Génération de mot de passe sécurisé} :  
+    L’application proposera une fonctionnalité permettant de générer automatiquement des mots de passe complexes et sécurisés.
+
+    \item \textbf{Recherche par label} :
+    l'utilisateur pourra choisir d'afficher uniquement les mots de passes ayant le label « Réseaux sociaux » par exemple.
+
+    \item \textbf{Système 2FA} : 
+    L'utilisateur pourra ajouter des systèmes de double authentification directement sur le keypass.
+
+    \item \textbf{Rapport d'utilisation de l'application} : 
+    L'utilisateur pourra afficher un rapport de l'utilisation des mots de passe de l'application.
+
+    \item \textbf{Interface} :
+    Une Interface pourrais être développer dans ce projet si nous somme efficace et que nous avons le temps d'apprendre et appliquer cette compétence.
+
+
+\end{enumerate}
+
+\end{document}
