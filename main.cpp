@@ -212,7 +212,7 @@ int main(){
                             continue;
                         }
 
-                        // Demander le label
+                        //Demander le label
                         std::cout << "\nVoulez-vous ajouter un label a votre mot de passe ?" << '\n';
                         std::cout << "1 : Oui" << '\n';
                         std::cout << "2 : Non" << '\n';
@@ -253,8 +253,7 @@ int main(){
                             }
                             
                             if(!found){
-                                std::cout << "Le label entre ne correspond a aucun label existant." << '\n';
-                                std::cout << "Le mot de passe sera ajoute sans label." << '\n';
+                                std::cout << "Le label entrer ne correspond a aucun label existant." << '\n';
                             }
                         }
 

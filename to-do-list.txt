@@ -1,8 +1,11 @@
--ajouter std::cout <<""; pr 
-fludifier échange
--accès ajout mdp seul a fonctionner
--type d'appplication "autre" bloque 
-l'execution
--message erreur label afficher meme
-lorsqu'on a pas d'erreur
+-ajouter std::cout <<""; pr fludifier échange
 -vérifier qu'on ne puisse pas créer 2 compte avec le mm nom
+-vérifier qu'on ne puisse pas créer 2 label avec le mm nom
+-remplir mdp.CPP
+-Mettre des commentaires
+-supprimer mdp
+-suppression label
+-chiffrement   /!\
+-systeme 2FA
+-interface
+-bien ésquilibré hpp et cpp

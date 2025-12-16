@@ -77,7 +77,7 @@ public:
     
     void displayInfo() const override {
         Application::displayInfo();
-        std::cout << "Carte: ****" << (cardNumber % 10000) << " (CVV: ***)" << '\n';
+        std::cout << "Carte: ****" << (cardNumber % 10000) << " (CVV: ***)" << '\n';  //affichage a revoir
     }
     
     bool validate() const override {
