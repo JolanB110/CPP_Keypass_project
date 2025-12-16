@@ -5,7 +5,7 @@
 -Mettre des commentaires
 -supprimer mdp
 -suppression label
--chiffrement   /!\
+-chiffrement
 -systeme 2FA
 -interface
 -bien ésquilibré hpp et cpp
