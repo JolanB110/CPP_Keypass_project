@@ -32,12 +32,11 @@ void Save(const std::vector<User>& users, const std::vector<Label> tag) {
 std::vector<User> Import() {
     std::vector<User> users;
     std::ifstream file("users.dat");
-    
     if (!file.is_open()) {
         std::cout << "Aucun fichier de sauvegarde trouver. Nouveau fichier creer au premier enregistrement.\n";
         return users;
     }
-    
+
     std::string line;
     while (std::getline(file, line)) {
         if (line.empty() || line == "---LABELS---") continue;
@@ -48,15 +47,40 @@ std::vector<User> Import() {
         if (pos1 != std::string::npos && pos2 != std::string::npos) {
             std::string username = line.substr(0, pos1);
             std::string password = line.substr(pos1 + 1, pos2 - pos1 - 1);
-            int nbMdp = std::stoi(line.substr(pos2 + 1));
+            
+            //extraction et validation de la partie numérique
+            std::string nbMdpStr = line.substr(pos2 + 1);
+            
+            //supprimer les espaces blancs éventuels
+            nbMdpStr.erase(0, nbMdpStr.find_first_not_of(" \t\n\r"));
+            nbMdpStr.erase(nbMdpStr.find_last_not_of(" \t\n\r") + 1);
+            
+            // Vérifier que la chaîne n'est pas vide et contient uniquement des chiffres
+            if (nbMdpStr.empty() || nbMdpStr.find_first_not_of("0123456789") != std::string::npos) {
+                std::cerr << "Erreur: nombre de mots de passe invalide pour l'utilisateur " 
+                          << username << ". Ligne ignoree.\n";
+                continue;
+            }
+            
+            int nbMdp = 0;
+            try {
+                nbMdp = std::stoi(nbMdpStr);
+            } catch (const std::invalid_argument& e) {
+                std::cerr << "Erreur de conversion pour l'utilisateur " << username 
+                          << ". Ligne ignoree.\n";
+                continue;
+            } catch (const std::out_of_range& e) {
+                std::cerr << "Nombre trop grand pour l'utilisateur " << username 
+                          << ". Ligne ignoree.\n";
+                continue;
+            }
             
             User user(username, password);
             
-            //on charge les mots de passe associés
+            //charger les mots de passe associés
             for (int i = 0; i < nbMdp; i++) {
                 if (std::getline(file, line)) {
                     if (line == "---LABELS---") {
-                        //et quand on atteint la section labels, on sort
                         break;
                     }
                     
@@ -67,18 +91,18 @@ std::vector<User> Import() {
                         std::string appName = line.substr(0, p1);
                         std::string appPwd = line.substr(p1 + 1, p2 - p1 - 1);
                         std::string label = line.substr(p2 + 1);
-                        
                         user.getMdp().push_back(Mdp(appName, appPwd, label));
                     }
                 }
             }
-            
             users.push_back(user);
         }
     }
+    
     file.close();
     std::cout << "Donnees chargees depuis la sauvegarde\n";
     return users;
 }
+
 
 
