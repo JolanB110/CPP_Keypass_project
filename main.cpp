@@ -95,7 +95,7 @@ int main(){
             }
             
             rep_home = "-1";
-            while(rep_home != "6"){
+            while(rep_home != "7"){
 
                 std::cout << "\n--- Bienvenue " << ActualUser->getUsername() << " ---" << '\n';
                 std::cout << "1 : Ajouter un mot de passe " << '\n';
@@ -103,7 +103,8 @@ int main(){
                 std::cout << "3 : Rechercher un mot de passe " << '\n';
                 std::cout << "4 : Tester un mot de passe " << '\n';
                 std::cout << "5 : Supprimer un mot de passe " << '\n';
-                std::cout << "6 : Se deconnecter " << '\n';
+                std::cout <<"6 : Supprimer un label " << '\n';
+                std::cout << "7 : Se deconnecter " << '\n';
                 
                 std::cout.flush();
                 
@@ -418,9 +419,69 @@ int main(){
                         if (!found) {
                             std::cout << "Aucun mot de passe trouve pour l'application '" << nom << "'.\n";
                 }
-            }
-            }
-        }
+                    }
+                }
+                else if (rep_home == "6"){
+                    if (tag.empty()){
+                        std::cout<<"Aucun label a ete enregistré"<<'\n';
+                        continue;
+                    }
+                    std::cout<<"\n---Menu de suppression de label---"<<'\n';
+                    std::cout<<"Liste des labels :"<<'\n';
+                    for (size_t i = 0; i < tag.size(); i++){
+                        std::cout<<"["<<i<<"] Label : "<<tag[i].getName()<<'\n';
+                    }
+                    std::cout<<"1 : Supprimer par index"<<'\n';
+                    std::cout<<"2 : Supprimer par nom de label"<<'\n';
+                    std::cout<<"3 : Retour"<<'\n';
+                    std::cout.flush();
+
+                    std::string choix_supp_label;
+                    if (!(std::cin >> choix_supp_label)) {
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        choix_supp_label = "3";
+                    }
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                    if (choix_supp_label == "1") {
+                        std::cout << "Entrez l'index du label a supprimer: ";
+                        std::cout.flush();
+                        int index;
+                        if (std::cin >> index) {
+                            if (index >= 0 && index < static_cast<int>(tag.size())) {
+                                std::string labelName = tag[index].getName();
+                                tag.erase(tag.begin() + index);
+                                std::cout << "Label '" << labelName << "' supprime avec succes !\n";
+                                Save(users, tag);
+                            } else {
+                                std::cout << "Index invalide!\n";
+                            }
+                        }
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    } 
+                    else if (choix_supp_label == "2") {
+                        std::cout << "Entrez le nom du label: ";
+                        std::cout.flush();
+                        std::getline(std::cin, nom);
+                        
+                        bool found = false;
+                        for (size_t i = 0; i < tag.size(); i++) {
+                            if (tag[i].getName() == nom) {
+                                tag.erase(tag.begin() + i);
+                                std::cout << "Label '" << nom << "' supprime avec succes !\n";
+                                Save(users, tag);
+                                found = true;
+                                break;
+                            }
+                        }
+                        
+                        if (!found) {
+                            std::cout << "Aucun label trouve avec le nom '" << nom << "'.\n";
+                        }
+                    }
+                }
+            }  
                 
             // Fin de la connexion, réinitialisation des variables
             connexion_successful = false;
