@@ -95,14 +95,16 @@ int main(){
             }
             
             rep_home = "-1";
-            while(rep_home != "5"){
+            while(rep_home != "6"){
 
                 std::cout << "\n--- Bienvenue " << ActualUser->getUsername() << " ---" << '\n';
                 std::cout << "1 : Ajouter un mot de passe " << '\n';
                 std::cout << "2 : Ajouter un label " << '\n';
                 std::cout << "3 : Rechercher un mot de passe " << '\n';
                 std::cout << "4 : Tester un mot de passe " << '\n';
-                std::cout << "5 : Se deconnecter " << '\n';
+                std::cout << "5 : Supprimer un mot de passe " << '\n';
+                std::cout << "6 : Se deconnecter " << '\n';
+                
                 std::cout.flush();
                 
                 if (!(std::cin >> rep_home)) {
@@ -352,7 +354,73 @@ int main(){
                         std::cout << "Ce mot de passe est TROP FAIBLE !\n";
                     }
                 }
+                else if(rep_home == "5"){
+                    std::vector<Mdp>& mdpList = ActualUser->getMdp();
+                    if (mdpList.empty()){
+                        std::cout<<"Aucun mot de passe enregistré"<<'\n';
+                        continue;
+                    }
+                    std::cout<<"\n---Menu de suppression de mot de passe---"<<'\n';
+                    std::cout<<"Liste des mots de passe :"<<'\n';
+                    for (size_t i = 0; i < mdpList.size(); i++){
+                        std::cout<<"["<<i<<"] Application :"<<mdpList[i].getName()<<'\n';
+                        if (!mdpList[i].getLabel().empty()){
+                            std::cout<<"Label : "<<mdpList[i].getLabel()<<'\n';
+                        }
+                        std::cout<<'\n';
+                    }
+                    std::cout<<" "<<'\n';
+                    std::cout<<"1 : Supprimer par index"<<'\n';
+                    std::cout<<"2 : Supprimer par nom d'application"<<'\n';
+                    std::cout<<"3 : Retour"<<'\n';
+                    std::cout.flush();
+
+                    std::string choix_supp;
+                    if(!(std::cin >> choix_supp)) {
+                        std::cin.clear();
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        choix_supp = "3";
+                    }
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                    if (choix_supp == "1") {
+                        std::cout << "Entrez l'index du mot de passe a supprimer: ";
+                        std::cout.flush();
+                        int index;
+                        if (std::cin >> index) {
+                            if (index >= 0 && index < static_cast<int>(mdpList.size())) {
+                                std::string appName = mdpList[index].getName();
+                                mdpList.erase(mdpList.begin() + index);
+                                std::cout << "Mot de passe de '" << appName << "' supprime avec succes !\n";
+                                Save(users, tag);
+                            } else {
+                                std::cout << "Index invalide!\n";
+                            }
+                        }
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    } 
+                    else if (choix_supp == "2") {
+                        std::cout << "Entrez le nom de l'application: ";
+                        std::cout.flush();
+                        std::getline(std::cin, nom);
+                        
+                        bool found = false;
+                        for (size_t i = 0; i < mdpList.size(); i++) {
+                            if (mdpList[i].getName() == nom) {
+                                mdpList.erase(mdpList.begin() + i);
+                                std::cout << "Mot de passe de '" << nom << "' supprime avec succes !\n";
+                                Save(users, tag);
+                                found = true;
+                                break;
+                            }
+                        }
+                        
+                        if (!found) {
+                            std::cout << "Aucun mot de passe trouve pour l'application '" << nom << "'.\n";
+                }
             }
+            }
+        }
                 
             // Fin de la connexion, réinitialisation des variables
             connexion_successful = false;
