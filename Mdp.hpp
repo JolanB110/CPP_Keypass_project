@@ -18,6 +18,9 @@ public:
     std::string getLabel() const;
 
     static std::string mdpgenerator(int length = 16, bool includeSpecial = true);
+
+    static std::string encryptedPassword(const std::string& password, int shift = 5);
+    static std::string decryptedPassword(const std::string& encrypted, int shift = 5);
 };
 
 #endif

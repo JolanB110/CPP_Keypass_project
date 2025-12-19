@@ -1,6 +1,3 @@
 -ajouter std::cout <<""; pr fludifier échange
--vérifier qu'on ne puisse pas créer 2 label avec le mm nom
 -Mettre des commentaires
--chiffrement
--systeme 2FA
 -interface

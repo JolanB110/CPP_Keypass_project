@@ -1,18 +1,18 @@
 #include "Mdp.hpp"
 
-// Constructeurs
+//constructeurs
 Mdp::Mdp(const std::string& name, const std::string& Password)
     : name(name), Password(Password) {}
 
 Mdp::Mdp(const std::string& name, const std::string& Password, const std::string& label)
     : name(name), Password(Password), label(label) {}
 
-// Getters
+//getters
 std::string Mdp::getName() const { return name; }
 std::string Mdp::getPassword() const { return Password; }
 std::string Mdp::getLabel() const { return label; }
 
-// Générateur de mot de passe
+//générateur de mot de passe
 std::string Mdp::mdpgenerator(int length, bool includeSpecial) {
     std::string lowercase = "abcdefghijklmnopqrstuvwxyz";
     std::string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -31,4 +31,21 @@ std::string Mdp::mdpgenerator(int length, bool includeSpecial) {
         password += charset[dis(gen)];
     }
     return password;
+}
+//chiffrement simple par décalage (César)
+std::string Mdp::encryptedPassword(const std::string& password, int shift) {
+    std::string encrypted = "";
+    for (char c : password) {
+        encrypted += static_cast<char>(c + shift);
+    }
+    return encrypted;
+}
+
+//déchiffrement simple par décalage (César)
+std::string Mdp::decryptedPassword(const std::string& encrypted, int shift) {
+    std::string decrypted = "";
+    for (char c : encrypted) {
+        decrypted += static_cast<char>(c - shift);
+    }
+    return decrypted;
 }

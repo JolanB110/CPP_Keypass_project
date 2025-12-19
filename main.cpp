@@ -5,12 +5,11 @@
 #include "Application.hpp"
 #include "PasswordTester.hpp"
 #include "search_label.hpp"
-#include <string>
-#include <vector>
 #include <iostream>
+#include <vector>
+#include <string>
 #include <limits>
 #include <memory>
-
 
 int main(){
     User* ActualUser = nullptr;
@@ -18,6 +17,7 @@ int main(){
     std::vector<User> users;
     std::string nom, mdp, etiquette;
     std::vector<Label> tag;
+
     users = Import();
 
     bool connexion_successful = false;
@@ -27,12 +27,11 @@ int main(){
     std::string rep_search = "-1";
 
     while (rep_init != "0"){
-
         std::cout << "\n--- Menu Principal ---" << '\n';
         std::cout << "1 : Creer un compte " << '\n';
         std::cout << "2 : Se Connecter a un compte existant " << '\n';
         std::cout << "3 : Supprimer un compte existant " << '\n';
-        std::cout << "4 : <Admin> Reset Data" << '\n';
+        std::cout << "4 : Reset Data" << '\n';
         std::cout << "0 : Quitter l'application " << '\n';
         std::cout.flush();
 
@@ -50,7 +49,6 @@ int main(){
             std::cout.flush();
             std::getline(std::cin, nom);
 
-            // Vérification de l'existence du compte
             bool compte_existant = false;
             for (const auto& user : users) {
                 if (user.getUsername() == nom) {
@@ -62,7 +60,7 @@ int main(){
 
             if(!compte_existant){
                 std::cout << "Entrez votre mot de passe : " << '\n';
-                std::getline(std::cin, mdp); 
+                std::getline(std::cin, mdp);
                 std::cout.flush();
                 users.push_back(User(nom, mdp));
                 std::cout << "Compte cree avec succes !" << '\n';
@@ -70,44 +68,65 @@ int main(){
             }
         }
         else if(rep_init == "2"){
-
             std::cout << "\n--- Menu Connexion ---" << '\n';
             std::cout << "Entrez votre nom : " << '\n';
             std::cout.flush();
             std::getline(std::cin, nom);
+
             std::cout << "Entrez votre mot de passe : " << '\n';
             std::cout.flush();
             std::getline(std::cin, mdp);
-            
+
             connexion_successful = false;
             for(int i = 0; i < users.size(); i++){
                 if(users[i].verifConnexion(nom, mdp)){
                     User_used = i;
                     ActualUser = &users[i];
-                    std::cout << "Connexion reussie" << '\n';
-                    connexion_successful = true;
-                    break;
-                } 
+                    
+                    if(ActualUser->is2FAEnabled()) {
+                        std::string code2FA;
+                        std::string expected2FA = ActualUser->get2FACode();
+                        std::cout << "\n--- Authentification 2FA ---" << '\n';
+                        std::cout << "2FA activé. Entrez votre code 2FA : " << '\n';
+                        std::cout << "(Code pour test: " << expected2FA << ")" << '\n';
+                        std::cout.flush();
+                        std::getline(std::cin, code2FA);
+                        
+                        if(ActualUser->verify2FA(code2FA)) {
+                            std::cout << "Connexion reussie avec 2FA !" << '\n';
+                            connexion_successful = true;
+                            break;
+                        } else {
+                            std::cout << "Code 2FA incorrect !" << '\n';
+                            ActualUser = nullptr;
+                            continue;
+                        }
+                    } else {
+                        std::cout << "Connexion reussie" << '\n';
+                        connexion_successful = true;
+                        break;
+                    }
+                }
             }
+
             if(connexion_successful == false){
                 std::cout << "Echec de la connexion, nom ou mot de passe incorrect" << '\n';
                 continue;
             }
-            
-            rep_home = "-1";
-            while(rep_home != "7"){
 
+            rep_home = "-1";
+            while(rep_home != "8"){
                 std::cout << "\n--- Bienvenue " << ActualUser->getUsername() << " ---" << '\n';
                 std::cout << "1 : Ajouter un mot de passe " << '\n';
                 std::cout << "2 : Ajouter un label " << '\n';
                 std::cout << "3 : Rechercher un mot de passe " << '\n';
                 std::cout << "4 : Tester un mot de passe " << '\n';
                 std::cout << "5 : Supprimer un mot de passe " << '\n';
-                std::cout <<"6 : Supprimer un label " << '\n';
-                std::cout << "7 : Se deconnecter " << '\n';
-                
+                std::cout << "6 : Supprimer un label " << '\n';
+                std::cout << "7 : Gerer 2FA " << '\n';
+                std::cout << "8 : Se deconnecter " << '\n';
                 std::cout.flush();
-                
+
                 if (!(std::cin >> rep_home)) {
                     std::cin.clear();
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -116,7 +135,6 @@ int main(){
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
                 if(rep_home == "1"){
-
                     std::cout << "\n--- Menu Ajout de Mot de passe ---" << '\n';
                     std::cout << "Entrez l'application associee au mot de passe : " << '\n';
                     std::cout.flush();
@@ -127,7 +145,7 @@ int main(){
                     std::cout << "2 : Bancaire" << '\n';
                     std::cout << "3 : Autre" << '\n';
                     std::cout.flush();
-                    
+
                     std::string appType;
                     if(!(std::cin >> appType)) {
                         std::cin.clear();
@@ -135,11 +153,10 @@ int main(){
                         continue;
                     }
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    
-                    // Utilisation de unique_ptr pour éviter les fuites mémoire
+
                     std::unique_ptr<Application> app = nullptr;
                     bool app_valide = false;
-                        
+
                     if(appType == "1") {
                         std::string email;
                         std::cout << "Entrez l'email : " << '\n';
@@ -165,8 +182,7 @@ int main(){
                         std::cout.flush();
                         std::getline(std::cin, expDate);
                         app = std::make_unique<BankApplication>(nom, "Bancaire", cardNum, cvv, expDate);
-                        
-                        // Correction : validation avant de marquer comme valide
+
                         if(app != nullptr && app->validate()) {
                             app->displayInfo();
                             app_valide = true;
@@ -182,14 +198,11 @@ int main(){
                         std::cout << "Type non valide" << '\n';
                     }
 
-                    // Continuer seulement si l'application est valide
                     if(app_valide) {
-
-                        // Demander le mot de passe
                         std::cout << "\n1 : Entrer votre propre mot de passe " << '\n';
                         std::cout << "2 : Generer un mot de passe automatiquement" << '\n';
                         std::cout.flush();
-                        
+
                         if(!(std::cin >> rep_mdp)) {
                             std::cin.clear();
                             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -198,7 +211,6 @@ int main(){
                         }
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-                        // Variable pour stocker le mot de passe final
                         std::string password_final;
 
                         if(rep_mdp == "2"){
@@ -215,12 +227,14 @@ int main(){
                             continue;
                         }
 
-                        //Demander le label
+                        // CHIFFREMENT DU MOT DE PASSE
+                        std::string password_encrypted = Mdp::encryptedPassword(password_final, 5);
+
                         std::cout << "\nVoulez-vous ajouter un label a votre mot de passe ?" << '\n';
                         std::cout << "1 : Oui" << '\n';
                         std::cout << "2 : Non" << '\n';
                         std::cout.flush();
-                        
+
                         std::string choix_label;
                         if(!(std::cin >> choix_label)) {
                             std::cin.clear();
@@ -228,12 +242,11 @@ int main(){
                             choix_label = "2";
                         }
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                        
+
                         std::string label_final = "";
-                        
+
                         if(choix_label == "1"){
                             std::cout << "\nVoici la liste de tous les labels :" << '\n';
-                            
                             if(tag.empty()){
                                 std::cout << "(Aucun label disponible)" << '\n';
                             } else {
@@ -241,7 +254,7 @@ int main(){
                                     std::cout << "- " << tag[i].getName() << '\n';
                                 }
                             }
-                            
+
                             std::cout << "\nEntrez le nom du label a associer : " << '\n';
                             std::cout.flush();
                             std::getline(std::cin, etiquette);
@@ -254,40 +267,40 @@ int main(){
                                     break;
                                 }
                             }
-                            
+
                             if(!found){
                                 std::cout << "Le label entrer ne correspond a aucun label existant." << '\n';
                             }
                         }
 
-                        // Ajouter le mot de passe une seule fois avec le bon label
-                        ActualUser->getMdp().push_back(Mdp(nom, password_final, label_final));
-                        std::cout << "Mot de passe ajoute avec succes !" << '\n';
+                        ActualUser->getMdp().push_back(Mdp(nom, password_encrypted, label_final));
+                        std::cout << "Mot de passe ajoute avec succes (chiffre) !" << '\n';
                         Save(users, tag);
                     }
-                    // Le unique_ptr se libère automatiquement à la fin du scope
                 }
                 else if(rep_home == "2"){
                     std::cout << "\n--- Menu Ajout de Label ---" << '\n';
-                    std::cout << "Entrez le nom du label a creer : ";
+                    std::cout << "Entrez le nom du label a creer : " << '\n';
                     std::cout.flush();
                     std::getline(std::cin, nom);
                     std::cout << '\n';
-                    
+
+                    // VERIFICATION: Pas de doublon de label
                     bool label_existant = false;
                     for (const auto& l : tag) {
                         if (l.getName() == nom) {
                             label_existant = true;
-                            std::cout << "Un label avec ce nom existe deja." << '\n';
+                            std::cout << "ERREUR : Un label avec ce nom existe deja !" << '\n';
+                            std::cout << "Impossible de creer deux labels avec le meme nom." << '\n';
                             break;
                         }
                     }
-                    
+
                     if(!label_existant){
                         tag.push_back(Label(nom));
                         std::cout << "Label cree avec succes !" << '\n';
                         Save(users, tag);
-                        
+
                         std::cout << "\nListe des labels actuels :" << '\n';
                         for (size_t i = 0; i < tag.size(); ++i) {
                             std::cout << "- " << tag[i].getName() << '\n';
@@ -295,16 +308,14 @@ int main(){
                     }
                 }
                 else if(rep_home == "3"){
-
                     do{
                         std::string recherche;
-
                         std::cout << "\n--- Menu Recherche ---" << '\n';
                         std::cout << "1 : Recherche par application" << '\n';
                         std::cout << "2 : Recherche par label " << '\n';
                         std::cout << "3 : Retour " << '\n';
                         std::cout.flush();
-                        
+
                         if(!(std::cin >> rep_search)) {
                             std::cin.clear();
                             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -321,12 +332,14 @@ int main(){
                             bool found = false;
                             for(size_t i = 0; i < ActualUser->getMdp().size(); i++){
                                 if(ActualUser->getMdp()[i].getName() == recherche){
-                                    std::cout << "Mot de passe de l'application " << recherche 
-                                             << " : " << ActualUser->getMdp()[i].getPassword() << '\n';
+                                    // DECHIFFREMENT DU MOT DE PASSE
+                                    std::string decrypted = Mdp::decryptedPassword(ActualUser->getMdp()[i].getPassword(), 5);
+                                    std::cout << "Mot de passe de l'application " << recherche
+                                              << " : " << decrypted << '\n';
                                     found = true;
-                                } 
+                                }
                             }
-                            
+
                             if (!found){
                                 std::cout << "Aucun mot de passe trouve. Creez le mot de passe ou refaites une recherche." << '\n';
                             }
@@ -336,8 +349,10 @@ int main(){
                             std::cout.flush();
                             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                             std::getline(std::cin, recherche);
+
                             LabelSearch::searchByLabel(ActualUser->getMdp(), recherche);
                         }
+
                     } while(rep_search != "3");
                 }
                 else if(rep_home == "4"){
@@ -345,10 +360,10 @@ int main(){
                     std::cout << "Entrez le mot de passe a tester : " << '\n';
                     std::cout.flush();
                     std::getline(std::cin, mdp);
-                        
+
                     PasswordTester tester(mdp);
                     tester.displayReport();
-                    
+
                     if(tester.isStrong()){
                         std::cout << "Ce mot de passe est ACCEPTABLE !\n";
                     } else {
@@ -357,23 +372,21 @@ int main(){
                 }
                 else if(rep_home == "5"){
                     std::vector<Mdp>& mdpList = ActualUser->getMdp();
+
                     if (mdpList.empty()){
-                        std::cout<<"Aucun mot de passe enregistré"<<'\n';
+                        std::cout<<"Aucun mot de passe enregistre"<<'\n';
                         continue;
                     }
+
                     std::cout<<"\n---Menu de suppression de mot de passe---"<<'\n';
                     std::cout<<"Liste des mots de passe :"<<'\n';
                     for (size_t i = 0; i < mdpList.size(); i++){
-                        std::cout<<"["<<i<<"] Application :"<<mdpList[i].getName()<<'\n';
-                        if (!mdpList[i].getLabel().empty()){
-                            std::cout<<"Label : "<<mdpList[i].getLabel()<<'\n';
-                        }
-                        std::cout<<'\n';
+                        std::cout<<"["<<i<<"] "<<mdpList[i].getName()<<'\n';
                     }
-                    std::cout<<" "<<'\n';
-                    std::cout<<"1 : Supprimer par index"<<'\n';
-                    std::cout<<"2 : Supprimer par nom d'application"<<'\n';
-                    std::cout<<"3 : Retour"<<'\n';
+
+                    std::cout<<"\n1 : Supprimer par index"<<'\n';
+                    std::cout<<"2 : Supprimer par nom"<<'\n';
+                    std::cout<<"3 : Annuler"<<'\n';
                     std::cout.flush();
 
                     std::string choix_supp;
@@ -399,12 +412,12 @@ int main(){
                             }
                         }
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    } 
+                    }
                     else if (choix_supp == "2") {
                         std::cout << "Entrez le nom de l'application: ";
                         std::cout.flush();
                         std::getline(std::cin, nom);
-                        
+
                         bool found = false;
                         for (size_t i = 0; i < mdpList.size(); i++) {
                             if (mdpList[i].getName() == nom) {
@@ -415,29 +428,30 @@ int main(){
                                 break;
                             }
                         }
-                        
                         if (!found) {
                             std::cout << "Aucun mot de passe trouve pour l'application '" << nom << "'.\n";
-                }
+                        }
                     }
                 }
                 else if (rep_home == "6"){
                     if (tag.empty()){
-                        std::cout<<"Aucun label a ete enregistré"<<'\n';
+                        std::cout<<"Aucun label a ete enregistre"<<'\n';
                         continue;
                     }
+
                     std::cout<<"\n---Menu de suppression de label---"<<'\n';
                     std::cout<<"Liste des labels :"<<'\n';
                     for (size_t i = 0; i < tag.size(); i++){
-                        std::cout<<"["<<i<<"] Label : "<<tag[i].getName()<<'\n';
+                        std::cout<<"["<<i<<"] "<<tag[i].getName()<<'\n';
                     }
-                    std::cout<<"1 : Supprimer par index"<<'\n';
-                    std::cout<<"2 : Supprimer par nom de label"<<'\n';
-                    std::cout<<"3 : Retour"<<'\n';
+
+                    std::cout<<"\n1 : Supprimer par index"<<'\n';
+                    std::cout<<"2 : Supprimer par nom"<<'\n';
+                    std::cout<<"3 : Annuler"<<'\n';
                     std::cout.flush();
 
                     std::string choix_supp_label;
-                    if (!(std::cin >> choix_supp_label)) {
+                    if(!(std::cin >> choix_supp_label)) {
                         std::cin.clear();
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                         choix_supp_label = "3";
@@ -459,12 +473,12 @@ int main(){
                             }
                         }
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    } 
+                    }
                     else if (choix_supp_label == "2") {
                         std::cout << "Entrez le nom du label: ";
                         std::cout.flush();
                         std::getline(std::cin, nom);
-                        
+
                         bool found = false;
                         for (size_t i = 0; i < tag.size(); i++) {
                             if (tag[i].getName() == nom) {
@@ -475,15 +489,42 @@ int main(){
                                 break;
                             }
                         }
-                        
                         if (!found) {
                             std::cout << "Aucun label trouve avec le nom '" << nom << "'.\n";
                         }
                     }
                 }
-            }  
-                
-            // Fin de la connexion, réinitialisation des variables
+                else if(rep_home == "7"){
+                    std::cout << "\n--- Gestion 2FA ---" << '\n';
+                    if(ActualUser->is2FAEnabled()) {
+                        std::cout << "2FA est actuellement ACTIVÉ" << '\n';
+                        std::cout << "Secret: " << ActualUser->get2FASecret() << '\n';
+                        std::cout << "Code actuel: " << ActualUser->get2FACode() << '\n';
+                        std::cout << "Voulez-vous la desactiver ? (1: Oui, 2: Non)" << '\n';
+                        std::string choix2FA;
+                        std::cin >> choix2FA;
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        if(choix2FA == "1") {
+                            ActualUser->disable2FA();
+                            std::cout << "2FA desactivee." << '\n';
+                            Save(users, tag);
+                        }
+                    } else {
+                        std::cout << "2FA est actuellement INACTIVÉ" << '\n';
+                        std::cout << "Voulez-vous l'activer ? (1: Oui, 2: Non)" << '\n';
+                        std::string choix2FA;
+                        std::cin >> choix2FA;
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        if(choix2FA == "1") {
+                            ActualUser->enable2FA();
+                            std::cout << "2FA activee ! Votre code secret est: " << ActualUser->get2FASecret() << '\n';
+                            std::cout << "Conservez ce code en lieu sur." << '\n';
+                            Save(users, tag);
+                        }
+                    }
+                }
+            }
+
             connexion_successful = false;
             rep_home = "-1";
             ActualUser = nullptr;
@@ -493,6 +534,7 @@ int main(){
             std::cout << "Entrez votre nom : " << '\n';
             std::cout.flush();
             std::getline(std::cin, nom);
+
             std::cout << "Entrez votre mot de passe : " << '\n';
             std::cout.flush();
             std::getline(std::cin, mdp);
@@ -508,7 +550,7 @@ int main(){
                     break;
                 }
             }
-            
+
             if(!compte_trouve){
                 std::cout << "Nom ou mot de passe incorrect." << '\n';
             }
@@ -521,7 +563,7 @@ int main(){
             std::cout << "Toutes les donnees ont ete reinitialisees." << '\n';
         }
     }
-    
+
     std::cout << "\n\nMerci de votre visite !!!" << '\n';
     return 0;
 }
