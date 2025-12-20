@@ -9,4 +9,3 @@ FEATURE :
 BUG :
 -Dans certain menu, on as 2 recupération d'entrée utilisateur 
 -Mdp garde label meme si label supprimer
--ajout de 2 mdp similaires a bloquer

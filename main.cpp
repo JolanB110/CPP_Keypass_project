@@ -137,9 +137,23 @@ int main(){
                 if(rep_home == "1"){
                     std::cout << "\n--- Menu Ajout de Mot de passe ---" << '\n';
                     std::cout << "Entrez l'application associee au mot de passe : " << '\n';
+
                     std::cout.flush();
                     std::getline(std::cin, nom);
 
+                    bool found = false;
+                    for(size_t i = 0; i < ActualUser->getMdp().size(); i++){
+                        if(ActualUser->getMdp()[i].getName()== nom){
+                            std::cout << "Attention : Un mot de passe pour cette application existe deja !" << '\n';
+                            std::cout << "Supprimer l'ancien mot de passe ou changer le nom de l'application." << '\n';
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if(found == true){
+                        break;
+                    }
                     std::cout << "\nType d'application : " << '\n';
                     std::cout << "1 : Email" << '\n';
                     std::cout << "2 : Bancaire" << '\n';
