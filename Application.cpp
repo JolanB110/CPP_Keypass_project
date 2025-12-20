@@ -1,5 +1,6 @@
 #include "Application.hpp"
 
+//constructeurs 
 Application::Application(const std::string& name, const std::string& type)
     : name(name), type(type), mail(""), path_to_user("") {}
 

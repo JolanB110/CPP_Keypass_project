@@ -27,16 +27,16 @@ protected:
 
 */
 
-class Application {
+class Application { 
 protected:
     std::string name;
     std::string type;
     std::string mail;
     std::string path_to_user;
 
-public:
+public://constructeur d'application
     Application(const std::string& name, const std::string& type);
-    virtual ~Application() = default;
+    virtual ~Application() = default;//méthode virtuelle 
 
     virtual void displayInfo() const {
         std::cout << "Application: " << name << " (" << type << ")" << '\n';
@@ -51,7 +51,7 @@ class EmailApplication : public Application {
 private:
     std::string mailAddress;
     
-public:
+public: //constructeur d'email avec sa méthode virtuelle
     EmailApplication(const std::string& name, const std::string& type, 
                      const std::string& mail);
     
@@ -60,7 +60,7 @@ public:
         std::cout << "Email: " << mailAddress << '\n';
     }
     
-    bool validate() const override {
+    bool validate() const override {  //doit contenir un '@' pour que la mail soit valide
         return !mailAddress.empty() && mailAddress.find('@') != std::string::npos;
     }
 };
@@ -71,7 +71,7 @@ private:
     int cvv;
     std::string expirationDate;
     
-public:
+public: //constructeur de bankApplication avec sa méthode virtuelle
     BankApplication(const std::string& name, const std::string& type,
                     int cardNum, int cvv, const std::string& expDate);
     
@@ -80,7 +80,7 @@ public:
         std::cout << "Carte: ****" << (cardNumber % 10000) << " (CVV: ***)" << '\n';  //affichage a revoir
     }
     
-    bool validate() const override {
+    bool validate() const override { //doit contenir le num de carte, le cvv et la date d'expiration pour être valide
         return cardNumber > 0 && cvv > 0 && !expirationDate.empty();
     }
 };

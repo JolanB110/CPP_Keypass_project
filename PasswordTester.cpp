@@ -10,21 +10,21 @@ PasswordTester::PasswordTester(const std::string& pwd)
 
 bool PasswordTester::hasLowercase() const {
     for (char c : password) {
-        if (c >= 'a' && c <= 'z') return true;
+        if (c >= 'a' && c <= 'z') return true;  //vérifie s'il y a des minuscules
     }
     return false;
 }
 
 bool PasswordTester::hasUppercase() const {
     for (char c : password) {
-        if (c >= 'A' && c <= 'Z') return true;
+        if (c >= 'A' && c <= 'Z') return true;  //vérifie s'il y a des majuscules
     }
     return false;
 }
 
 bool PasswordTester::hasDigits() const {
     for (char c : password) {
-        if (c >= '0' && c <= '9') return true;
+        if (c >= '0' && c <= '9') return true;  //vérifie s'il y a des chiffres
     }
     return false;
 }
@@ -32,7 +32,7 @@ bool PasswordTester::hasDigits() const {
 bool PasswordTester::hasSpecialChars() const {
     std::string specials = "!@#$%^&*()-_=+[]{}|;:,.<>?/~`";
     for (char c : password) {
-        if (specials.find(c) != std::string::npos) return true;
+        if (specials.find(c) != std::string::npos) return true;  //vérifie s'il y a des caractères spéciaux
     }
     return false;
 }
@@ -42,7 +42,7 @@ bool PasswordTester::hasCommonPatterns() const {
     std::transform(pwd_lower.begin(), pwd_lower.end(), pwd_lower.begin(), ::tolower);
     
     std::string patterns[] = {
-        "password", "123456", "qwerty", "abc", "000", "111",
+        "password", "123456", "qwerty", "abc", "000", "111",   // regarde s'il y a des partens 
         "admin", "letmein", "welcome", "monkey"
     };
     
@@ -65,18 +65,18 @@ double PasswordTester::calculateEntropy() const {
 void PasswordTester::calculateScore() {
     score = 0;
     
-    // Longueur
+    //regarde la longueur
     if (password.length() >= 8) score += 20;
     if (password.length() >= 12) score += 10;
     if (password.length() >= 16) score += 10;
     
-    // Diversité
+    //regarde la diversité
     if (hasLowercase()) score += 10;
     if (hasUppercase()) score += 10;
     if (hasDigits()) score += 10;
     if (hasSpecialChars()) score += 10;
     
-    // Bonus complexité
+    //regarde le bonus de complexité
     int types = 0;
     if (hasLowercase()) types++;
     if (hasUppercase()) types++;
@@ -84,12 +84,12 @@ void PasswordTester::calculateScore() {
     if (hasSpecialChars()) types++;
     if (types == 4) score += 10;
     
-    // Entropie
+    //regarde l'entropie
     double entropy = calculateEntropy();
     if (entropy > 0.8) score += 5;
     if (entropy > 0.9) score += 5;
     
-    // Pénalité motifs courants
+    //mets moins de points s'il y a des patterns 
     if (hasCommonPatterns()) {
         score = std::max(0, score - 30);
     }
@@ -125,14 +125,14 @@ void PasswordTester::displayReport() const {
     std::cout << "Force : " << level << "\n";
     std::cout << "Longueur : " << password.length() << " caracteres\n\n";
     
-    std::cout << "Criteres satisfaits :\n";
+    std::cout << "Criteres satisfaits :\n";  //affiche les critères satisfaits
     if (password.length() >= 8) std::cout << " Longueur >= 8\n";
     if (hasLowercase()) std::cout << " Minuscules\n";
     if (hasUppercase()) std::cout << " Majuscules\n";
     if (hasDigits()) std::cout << " Chiffres\n";
     if (hasSpecialChars()) std::cout << " Caracteres speciaux\n";
     
-    std::cout << "\nCriteres manquants :\n";
+    std::cout << "\nCriteres manquants :\n";  //affiche les critères manquants
     if (password.length() < 8) std::cout << " Longueur < 8\n";
     if (!hasLowercase()) std::cout << " Pas de minuscules\n";
     if (!hasUppercase()) std::cout << " Pas de majuscules\n";

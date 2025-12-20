@@ -2,7 +2,7 @@
 #define PASSWORDTESTER_HPP
 
 #include <string>
-
+//construction de la classe PasswordTester
 class PasswordTester {
 private:
     std::string password;

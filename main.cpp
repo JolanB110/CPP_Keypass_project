@@ -227,7 +227,7 @@ int main(){
                             continue;
                         }
 
-                        // CHIFFREMENT DU MOT DE PASSE
+                        //chiffre le mdp
                         std::string password_encrypted = Mdp::encryptedPassword(password_final, 5);
 
                         std::cout << "\nVoulez-vous ajouter un label a votre mot de passe ?" << '\n';
@@ -285,7 +285,7 @@ int main(){
                     std::getline(std::cin, nom);
                     std::cout << '\n';
 
-                    // VERIFICATION: Pas de doublon de label
+                    //vérifie s'il n'y a pas déjà un label avec ce nom
                     bool label_existant = false;
                     for (const auto& l : tag) {
                         if (l.getName() == nom) {
