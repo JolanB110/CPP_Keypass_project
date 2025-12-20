@@ -1,6 +1,7 @@
 #include "Save.hpp"
 #include "Label.hpp"
 #include "User.hpp"
+#include "Mdp.hpp"
 #include <fstream>
 #include <vector>
 #include <sstream>
@@ -13,12 +14,12 @@ void Save(const std::vector<User>& users, const std::vector<Label> tag) {
     }
 
     for (const auto& user : users) {
-        file << user.getUsername() << "|" << user.getMasterPassword() << "|" 
+        file << user.getUsername() << "|" << Mdp::encryptedPassword(user.getMasterPassword()) << "|" 
              << user.getMdp().size() << "\n";
         
         //on sauvegarde les mots de passe de cet utilisateur
         for (const auto& mdp : user.getMdp()) {
-            file << mdp.getName() << "|" << mdp.getPassword() << "|" 
+            file << mdp.getName() << "|" << Mdp::encryptedPassword(mdp.getPassword()) << "|" 
                  << mdp.getLabel() << "\n";
         }
     }
@@ -46,7 +47,7 @@ std::vector<User> Import() {
         
         if (pos1 != std::string::npos && pos2 != std::string::npos) {
             std::string username = line.substr(0, pos1);
-            std::string password = line.substr(pos1 + 1, pos2 - pos1 - 1);
+            std::string password = Mdp::decryptedPassword(line.substr(pos1 + 1, pos2 - pos1 - 1));
             
             //extraction et validation de la partie numérique
             std::string nbMdpStr = line.substr(pos2 + 1);
@@ -89,7 +90,7 @@ std::vector<User> Import() {
                     
                     if (p1 != std::string::npos && p2 != std::string::npos) {
                         std::string appName = line.substr(0, p1);
-                        std::string appPwd = line.substr(p1 + 1, p2 - p1 - 1);
+                        std::string appPwd = Mdp::decryptedPassword(line.substr(p1 + 1, p2 - p1 - 1));
                         std::string label = line.substr(p2 + 1);
                         user.getMdp().push_back(Mdp(appName, appPwd, label));
                     }

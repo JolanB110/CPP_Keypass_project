@@ -1,3 +1,7 @@
 -ajouter std::cout <<""; pr fludifier échange
 -Mettre des commentaires
 -interface
+-vérifier si .dat gère tout les caractères spéciaux des mot de passes générer*
+-suppression label via nom pas fonctionnel ?
+-Mdp garde label meme si label supprimer
+-système de test automatique

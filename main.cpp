@@ -497,7 +497,7 @@ int main(){
                 else if(rep_home == "7"){
                     std::cout << "\n--- Gestion 2FA ---" << '\n';
                     if(ActualUser->is2FAEnabled()) {
-                        std::cout << "2FA est actuellement ACTIVÉ" << '\n';
+                        std::cout << "2FA est actuellement ACTIVE" << '\n';
                         std::cout << "Secret: " << ActualUser->get2FASecret() << '\n';
                         std::cout << "Code actuel: " << ActualUser->get2FACode() << '\n';
                         std::cout << "Voulez-vous la desactiver ? (1: Oui, 2: Non)" << '\n';
@@ -510,8 +510,8 @@ int main(){
                             Save(users, tag);
                         }
                     } else {
-                        std::cout << "2FA est actuellement INACTIVÉ" << '\n';
-                        std::cout << "Voulez-vous l'activer ? (1: Oui, 2: Non)" << '\n';
+                        std::cout << "2FA est actuellement INACTIVE" << '\n';
+                        std::cout << "Voulez-vous l activer ? (1: Oui, 2: Non)" << '\n';
                         std::string choix2FA;
                         std::cin >> choix2FA;
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
