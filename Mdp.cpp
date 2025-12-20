@@ -12,6 +12,12 @@ std::string Mdp::getName() const { return name; }
 std::string Mdp::getPassword() const { return Password; }
 std::string Mdp::getLabel() const { return label; }
 
+//setter
+std::string Mdp::setLabel(const std::string& newLabel) {
+    label = newLabel;
+    return label;
+}
+
 //générateur de mot de passe
 std::string Mdp::mdpgenerator(int length, bool includeSpecial) {
     std::string lowercase = "abcdefghijklmnopqrstuvwxyz";

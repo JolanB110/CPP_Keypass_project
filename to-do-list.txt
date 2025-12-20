@@ -4,9 +4,9 @@ FEATURE :
 -Mettre des commentaires
 -interface
 -système de test automatique
+-interdir caractère " | " -> utiliser pour import/export des données
 
 BUG :
-
--vérifier si .dat gère tout les caractères spéciaux des mot de passes générer
--suppression label via nom pas fonctionnel ?
+-Dans certain menu, on as 2 recupération d'entrée utilisateur 
 -Mdp garde label meme si label supprimer
+-ajout de 2 mdp similaires a bloquer

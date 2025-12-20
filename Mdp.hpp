@@ -17,6 +17,8 @@ public:
     std::string getPassword() const;
     std::string getLabel() const;
 
+    std::string setLabel(const std::string& newLabel);
+
     static std::string mdpgenerator(int length = 16, bool includeSpecial = true);
 
     //méthodes statiques pour chiffrer et déchiffrer le mot de passe

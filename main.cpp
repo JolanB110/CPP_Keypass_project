@@ -446,7 +446,7 @@ int main(){
                     std::cout.flush();
 
                     std::string choix_supp_label;
-                    if(!(std::cin >> choix_supp_label)) {
+                    if(!(std::getline(std::cin, choix_supp_label))) {
                         std::cin.clear();
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                         choix_supp_label = "3";
@@ -478,6 +478,12 @@ int main(){
                         for (size_t i = 0; i < tag.size(); i++) {
                             if (tag[i].getName() == nom) {
                                 tag.erase(tag.begin() + i);
+                                //supprimer le label des mdp qui l'utilisent : Ne fonctionne pas !!!
+                                for (auto& mdpItem : ActualUser->getMdp()) {
+                                    if (mdpItem.getLabel() == nom) {
+                                        mdpItem.setLabel("");
+                                    }
+                                }
                                 std::cout << "Label '" << nom << "' supprime avec succes !\n";
                                 Save(users, tag);
                                 found = true;
