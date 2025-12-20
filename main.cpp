@@ -227,9 +227,6 @@ int main(){
                             continue;
                         }
 
-                        //chiffre le mdp
-                        std::string password_encrypted = Mdp::encryptedPassword(password_final, 5);
-
                         std::cout << "\nVoulez-vous ajouter un label a votre mot de passe ?" << '\n';
                         std::cout << "1 : Oui" << '\n';
                         std::cout << "2 : Non" << '\n';
@@ -273,7 +270,7 @@ int main(){
                             }
                         }
 
-                        ActualUser->getMdp().push_back(Mdp(nom, password_encrypted, label_final));
+                        ActualUser->getMdp().push_back(Mdp(nom, password_final, label_final));
                         std::cout << "Mot de passe ajoute avec succes (chiffre) !" << '\n';
                         Save(users, tag);
                     }
@@ -332,10 +329,8 @@ int main(){
                             bool found = false;
                             for(size_t i = 0; i < ActualUser->getMdp().size(); i++){
                                 if(ActualUser->getMdp()[i].getName() == recherche){
-                                    // DECHIFFREMENT DU MOT DE PASSE
-                                    std::string decrypted = Mdp::decryptedPassword(ActualUser->getMdp()[i].getPassword(), 5);
                                     std::cout << "Mot de passe de l'application " << recherche
-                                              << " : " << decrypted << '\n';
+                                              << " : " << ActualUser->getMdp()[i].getPassword() << '\n';
                                     found = true;
                                 }
                             }
