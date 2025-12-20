@@ -160,18 +160,25 @@ int main(){
                     std::cout << "3 : Autre" << '\n';
                     std::cout.flush();
 
-                    std::string appType;
-                    if(!(std::cin >> appType)) {
+                    std::string appTypeStr;
+                    if(!std::getline(std::cin, appTypeStr)) {
                         std::cin.clear();
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                         continue;
                     }
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                    int appType = 0;
+                    try {
+                        appType = std::stoi(appTypeStr);
+                    } catch(...) {
+                        std::cout << "Veuillez entrer un nombre valide (1, 2 ou 3)" << std::endl;
+                        continue;
+                    }
 
                     std::unique_ptr<Application> app = nullptr;
                     bool app_valide = false;
 
-                    if(appType == "1") {
+                    if(appType == 1) {
                         std::string email;
                         std::cout << "Entrez l'email : " << '\n';
                         std::cout.flush();
@@ -182,7 +189,7 @@ int main(){
                             app_valide = true;
                         }
                     }
-                    else if(appType == "2") {
+                    else if(appType == 2) {
                         int cardNum, cvv;
                         std::string expDate;
                         std::cout << "Numero de carte : " << '\n';
@@ -204,7 +211,7 @@ int main(){
                             std::cout << "Informations bancaires non valides" << '\n';
                         }
                     }
-                    else if(appType == "3"){
+                    else if(appType == 3){
                         std::cout << "Autre application creee" << '\n';
                         app_valide = true;
                     }
@@ -246,17 +253,23 @@ int main(){
                         std::cout << "2 : Non" << '\n';
                         std::cout.flush();
 
-                        std::string choix_label;
-                        if(!(std::cin >> choix_label)) {
+                        std::string choixLabelStr;
+                        if(!std::getline(std::cin, choixLabelStr)) {
                             std::cin.clear();
                             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                            choix_label = "2";
+                            choixLabelStr = "2";
                         }
-                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+                        int choixlabel = 2;
+                        try {
+                            choixlabel = std::stoi(choixLabelStr);
+                        } catch(...) {
+                            choixlabel = 2;
+                        }
 
                         std::string label_final = "";
 
-                        if(choix_label == "1"){
+                        if(choixlabel == 1){
                             std::cout << "\nVoici la liste de tous les labels :" << '\n';
                             if(tag.empty()){
                                 std::cout << "(Aucun label disponible)" << '\n';
