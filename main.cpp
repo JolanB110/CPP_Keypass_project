@@ -5,157 +5,13 @@
 #include "Application.hpp"
 #include "PasswordTester.hpp"
 #include "search_label.hpp"
+#include "inputVerif.hpp"
+#include "AutomaticTest.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
 #include <limits>
 #include <memory>
-
-//fonctions de validation
-
-bool isValidInput(const std::string& input) {
-    if (input.find('|') != std::string::npos) {
-        std::cout << "ERREUR : Le caractere '|' est interdit (reserve pour import/export) !" << '\n';
-        return false;
-    }
-    return true;
-}
-
-std::string getValidatedInput(const std::string& prompt = "") {
-    std::string input;
-    if (!prompt.empty()) {
-        std::cout << prompt;
-        std::cout.flush();
-    }
-    
-    if (!std::getline(std::cin, input)) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        return "";
-    }
-
-    if (!isValidInput(input)) {
-        return "";
-    }
-
-    return input;
-}
-
-bool isValidUsername(const std::string& username) {
-    if (username.empty()) {
-        std::cout << "ERREUR : Le nom d'utilisateur ne peut pas etre vide !" << '\n';
-        return false;
-    }
-    if (username.length() > 50) {
-        std::cout << "ERREUR : Le nom d'utilisateur est trop long (max 50 caracteres) !" << '\n';
-        return false;
-    }
-    return isValidInput(username);
-}
-
-bool isValidPassword(const std::string& password) {
-    if (password.empty()) {
-        std::cout << "ERREUR : Le mot de passe ne peut pas etre vide !" << '\n';
-        return false;
-    }
-    if (password.length() < 4) {
-        std::cout << "ERREUR : Le mot de passe doit contenir au moins 4 caracteres !" << '\n';
-        return false;
-    }
-    return isValidInput(password);
-}
-
-bool isValidLabel(const std::string& label) {
-    if (label.empty()) {
-        std::cout << "ERREUR : Le label ne peut pas etre vide !" << '\n';
-        return false;
-    }
-    if (label.length() > 30) {
-        std::cout << "ERREUR : Le label est trop long (max 30 caracteres) !" << '\n';
-        return false;
-    }
-    return isValidInput(label);
-}
-
-//implémentation de fonctions de tests automatiques faite avec l'IA
-
-void runPipeCharacterValidationTest() {
-    std::string test_input = "test|invalid";
-    if (!isValidInput(test_input)) {
-        std::cout << "[TEST 1] Validation du caractere '|' : passer " << '\n';
-    } else {
-        std::cout << "[TEST 1] Validation du caractere '|' : echouer " << '\n';
-    }
-}
-
-void runCreateAccountTest() {
-    std::string test_username = "TestUser123";
-    std::string test_password = "SecurePass456";
-    
-    if (isValidUsername(test_username) && isValidPassword(test_password)) {
-        std::cout << "[TEST 2] Creation de compte : passer " << '\n';
-    } else {
-        std::cout << "[TEST 2] Creation de compte : echouer " << '\n';
-    }
-}
-
-void runPasswordGeneratorTest() {
-    std::string generated = Mdp::mdpgenerator(16, true);
-    
-    if (generated.length() == 16 && !generated.empty()) {
-        std::cout << "[TEST 3] Generateur de mot de passe : passer " << '\n';
-    } else {
-        std::cout << "[TEST 3] Generateur de mot de passe : echouer " << '\n';
-    }
-}
-
-void runPasswordStrengthTest() {
-    std::string weak = "123";
-    std::string strong = "SecurePass123!@#";
-    
-    PasswordTester weak_tester(weak);
-    PasswordTester strong_tester(strong);
-    
-    std::cout << "[TEST 4] Testeur de force de mot de passe : passer " << '\n';
-}
-
-void runUsernameValidationTest() {
-    std::string valid_username = "ValidUser";
-    std::string invalid_username_long = std::string(51, 'a');
-    
-    if (isValidUsername(valid_username) && !isValidUsername(invalid_username_long)) {
-        std::cout << "[TEST 5] Validation des noms d'utilisateur : passer " << '\n';
-    } else {
-        std::cout << "[TEST 5] Validation des noms d'utilisateur : echouer " << '\n';
-    }
-}
-
-void runLabelValidationTest() {
-    std::string valid_label = "Important";
-    std::string invalid_label_long = std::string(31, 'a');
-    
-    if (isValidLabel(valid_label) && !isValidLabel(invalid_label_long)) {
-        std::cout << "[TEST 6] Validation des labels : passer " << '\n';
-    } else {
-        std::cout << "[TEST 6] Validation des labels : echouer " << '\n';
-    }
-}
-
-void runAutomaticTests() {
-
-    std::cout << "    TEST AUTOMATIQUE DU SYSTEME" << '\n';
-
-    
-    runPipeCharacterValidationTest();
-    runCreateAccountTest();
-    runPasswordGeneratorTest();
-    runPasswordStrengthTest();
-    runUsernameValidationTest();
-    runLabelValidationTest();
-
-    std::cout << "TESTS TERMINES" << '\n';
-
-}
 
 int main(){
     User* ActualUser = nullptr;
@@ -740,7 +596,7 @@ int main(){
             std::cout << "Toutes les donnees ont ete reinitialisees." << '\n';
         }
         else if(rep_init == "5"){
-            runAutomaticTests();
+            AutomaticTest::runAutomaticTests();
         }
     }
     std::cout << "\n\nMerci de votre visite !!!" << '\n';
