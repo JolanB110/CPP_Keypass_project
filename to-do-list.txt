@@ -4,8 +4,8 @@ FEATURE :
 -Mettre des commentaires
 -interface
 -système de test automatique
--interdir caractère " | " -> utiliser pour import/export des données
+-interdir caractère " | " -> utiliser pour import/export des données // pas trop compris cette ligne, j'ai essayer de faire un truc en rapport
 
 BUG :
--Dans certain menu, on as 2 recupération d'entrée utilisateur 
--Mdp garde label meme si label supprimer
+-Dans certain menu, on as 2 recupération d'entrée utilisateur fixed
+-Mdp garde label meme si label supprimer fixed
