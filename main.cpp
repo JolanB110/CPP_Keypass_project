@@ -77,7 +77,7 @@ bool isValidLabel(const std::string& label) {
     return isValidInput(label);
 }
 
-//implémentation de fonctions de tests automatiques 
+//implémentation de fonctions de tests automatiques faite avec l'IA
 
 void runPipeCharacterValidationTest() {
     std::string test_input = "test|invalid";
