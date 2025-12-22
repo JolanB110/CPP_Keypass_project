@@ -10,6 +10,7 @@ private:
     static void runCreateAccountTest();
     static void runPasswordGeneratorTest();
     static void runPasswordStrengthTest();
+    static void runUserComparisonTest();
     static void runUsernameValidationTest();
     static void runLabelValidationTest();
 };
