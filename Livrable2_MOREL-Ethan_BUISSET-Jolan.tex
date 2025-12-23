@@ -1,0 +1,252 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{graphicx}
+
+\geometry{margin=2.5cm}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+
+    \includegraphics[width=0.5\textwidth]{univlyon2_logo201806-standard.png} 
+    \vspace{1cm}
+
+    {\Huge \textbf{Livrable 2 -- Rapport du projet C++} \par}
+    \vspace{0.5cm}
+    {\Large Gestionnaires de mots de passe en C++ en Programmation Orienté Object \par}
+    \vspace{2cm}
+
+    \textbf{BUISSET Jolan \& MOREL Ethan} \par
+    \vspace{0.5cm}
+
+    Décembre 2025
+    \vfill
+
+    \tableofcontents
+\end{titlepage}
+
+\newpage
+
+\section{Introduction}
+
+Ce document constitue la suite du livrable 1, délivrée début décembre afin de présenter et définir notre projet.\\
+Ce document présentera notre projet avec la descriptions des différentes classe et relations associé tout en notifiant de quel manière l'IA a été utilisé dans notre projet.\\
+Pour rappel, notre projet est un keypass ( ou keepass ) entièrement réalisé en C++, nous allons décrire l'architecture de l'application ci-dessous.
+
+\section{Architecture générale}
+
+Notre application fonctionne autour d'un fichier principal nommé "main.cpp" qui en faisant appel a toute les autres classes du fichier, permet une utilisation fonctionnel de notre application afin de présenter correctement les fonctionnalités de cette dernières.\\
+Notre application est constitué d'une dizaine de classe qui interagissent entre elles via le fichier main.\\
+Pour utilisé notre application, il faut ouvrir un terminal, se placer dans le dossier de notre projet et exécuter les lignes de codes suivantes :
+
+\begin{verbatim}
+g++ *.cpp -o keypass.exe
+.\keypass.exe
+\end{verbatim}
+
+Ces commandes compiles tout les fichiers et créer/edit un fichier \textbf{keypass.exe} qui peut par la suite être exécuter et être utilisée.
+\\
+\\
+Le fichier users.dat sauvegardes tout les fichiers utilisateur en les chiffrant et en les déchiffrant avant et après utilisation de l'application, donc même après avoir fermer le programme, nous pouvons toujours utilisé nos données après l'avoir ré-ouvert.
+\\
+\\
+Voici les 2 UML constituant notre projet, l'UML de base, celui que nous avions conçus dans notre livrable 1 et l'UML final, représentant notre application finale afin de voir les différences entre l'étape de la conception et de la réalisation :
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{Uml/UML .png}
+    \caption{UML de base de notre projet C++}
+    \label{fig:UML de base}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{Uml/UML final.png}
+    \caption{UML finale de notre projet C++}
+    \label{fig:UML final}
+\end{figure}
+
+\texttt{Précision :} les flèches dans la deuxièmes figures représente les dépendance, c'est quand une classe utilise une autre, mais ne la possède pas.
+
+\section{Description des classes}
+
+Cette section décrit l’ensemble des classes composant l’application.
+Pour chacune d’elles, le rôle, les responsabilités principales et les
+relations avec les autres classes sont décrite et expliqué.
+
+\subsection{Classe \texttt{User}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "User" représente l'utilisateur. Elle gère l'authentification en vérifiant le nom et le mot de passe lors de la connexion. Elle contient aussi la liste des mots de passe enregistrés et s'occupe de la sécurité, notamment avec la double authentification.\\
+    Son rôle est de sécuriser l'accès à l'application et de garantir que les données de l'utilisateur restent privées.
+    \item \textbf{Attributs et méthodes principales :}
+    Cette classe possède toute les données utilisateurs de l'utilisateur utilisé lors du fonctionnement de l’application, elle possède plusieurs getters et setters lui permettant de parfaitement interagir avec le main.
+    \item \textbf{Relations et sémantique :}
+    Elle est reliée à la classe "Mdp" car elle en possède une liste, interagit avec le "main" pour l'exécution, et avec "Save" pour la sauvegarde des données.
+\end{itemize}
+
+\subsection{Classe \texttt{Mdp}}
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "Mdp" est l'élément central du stockage. Elle contient les informations d'une entrée : le nom de l'application, le mot de passe chiffré et le label associé. Elle intègre aussi les méthodes pour chiffrer et déchiffrer les mots de passe.
+    Elle sert à sécuriser chaque mot de passe individuellement et permet de les gérer ,ajout, modification, de manière sécurisée.
+    \item \textbf{Attributs et méthodes principales :}
+    Cette classe possède plusieurs variété de getters et de setter et possède 2 méthodes statiques afin de chiffrer et de déchiffrer des attributs
+    \item \textbf{Relations et sémantique :}Elle appartient à un objet "User" et fait référence au nom d'un "Label" pour le classement.
+\end{itemize}
+
+\subsection{Classe \texttt{Label}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "Label" permet de catégoriser les mots de passe. Elle stocke simplement un nom, comme "Travail" ou "Personnel", qui sert d'étiquette pour organiser les données.
+    Elle est utile pour aider l'utilisateur à trier ses mots de passe et à s'y retrouver plus facilement.
+    \item \textbf{Attributs et méthodes principales :}Elle ne possède qu'un attribut "name" et d'un getter "getName()".
+    \item \textbf{Relations et sémantique :}Elle est gérée par le programme principal et est utilisée par la classe "Mdp" pour associer un mot de passe à une catégorie.
+\end{itemize}
+
+\subsection{Classe \texttt{Application}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "Application" sert à valider les données avant de créer un mot de passe. Elle vérifie que les informations saisies, comme un email ou un numéro de carte bancaire, respectent le bon format.
+    Son but est d'assurer la cohérence des données enregistrées et d'éviter les erreurs de saisie.
+    \item \textbf{Attributs et méthodes principales :}
+    Cette Classe possède une relation d'héritage qui est appliqué en fonction de l'utilisation de cette dernière. Elle possède également une méthode virtuel ce qui en fait une classe assez complexe en terme d'implémentation.
+    \item \textbf{Relations et sémantique :}Elle est utilisée ponctuellement dans le "main" lors de la création d'une nouvelle entrée.
+\end{itemize}
+
+\subsection{Classe \texttt{EmailApplication}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "EmailApplication" est une spécialisation de la classe "Application". Elle valide spécifiquement les données pour les comptes de messagerie. Elle vérifie que l'email entré par l'utilisateur contient bien un caractère '@' et qu'il n'est pas vide.
+    Elle existe pour offrir une validation contextuelle adaptée aux emails et pour afficher les informations de manière appropriée.
+    \item \textbf{Attributs et méthodes principales :}
+    Elle hérite de la classe "Application" et redéfinit les méthodes validate() et displayInfo() pour les adapter au contexte email. 
+    \item \textbf{Relations et sémantique :}Elle est utilisée temporairement dans le "main" quand l'utilisateur choisit le type "Email".
+\end{itemize}
+
+\subsection{Classe \texttt{BankApplication}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "BankApplication" est une spécialisation de la classe "Application" pour les données bancaires. Elle valide que le numéro de carte n'est pas zéro, que le CVV n'est pas zéro et que la date d'expiration n'est pas vide.
+    Elle est présente pour assurer que les données bancaires sensibles respectent les critères minimums avant d'être enregistrées, évitant d'avoir des informations bancaires invalides ou incomplètes.
+    \item \textbf{Attributs et méthodes principales :}
+    Elle hérite de la classe "Application" et redéfinit validate() et displayInfo() pour gérer spécifiquement les données bancaires. 
+    \item \textbf{Relations et sémantique :}Elle est créée dans le "main" quand l'utilisateur sélectionne le type "Bancaire".
+\end{itemize}
+
+\subsection{Classe \texttt{Encryption}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "Encryption" gère le chiffrement et le déchiffrement des mots de passe. Elle utilise un algorithme simple de décalage avec une clé numérique pour transformer un mot de passe en clair en une version chiffrée et inversement.
+Elle existe pour protéger les mots de passe en mémoire et sur le disque, rendant difficile la lecture accidentelle des secrets.
+    \item \textbf{Attributs et méthodes principales :}
+    Elle possède deux méthodes statiques : encryptPassword() qui chiffre une chaîne et decryptPassword() qui la déchiffre.
+    \item \textbf{Relations et sémantique :} Elle est utilisée par la classe "Mdp" pour protéger les mots de passe.
+\end{itemize}
+
+\subsection{Classe \texttt{TwoFactor}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "TwoFactor" implémente la double authentification basée sur le temps (TOTP). Elle génère un secret aléatoire quand elle est activée et produit des codes à six chiffres qui changent toutes les 30 secondes en fonction de l'heure actuelle et du secret.
+    Elle est là pour ajouter une couche de sécurité supplémentaire lors de la connexion, en exigeant un code temporaire en plus du mot de passe principal.
+    \item \textbf{Attributs et méthodes principales :}
+    Elle est utilisée par la classe "User" pour générer des codes 2FA via generateCode() et pour vérifier les codes saisis par l'utilisateur via verifyCode().
+    \item \textbf{Relations et sémantique :} Cette classe est utilisé dans le main et compose la classe User d'un attibut simple.
+\end{itemize}
+
+\subsection{Classe \texttt{PasswordTester}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "PasswordTester" analyse la qualité d'un mot de passe. Elle examine sa longueur et sa complexité pour déterminer s'il est suffisamment sécurisé.
+    Elle a pour objectif d'aider l'utilisateur à choisir des mots de passe robustes pour mieux protéger ses comptes.
+    \item \textbf{Attributs et méthodes principales :}
+    Elle posssède plusieurs attibut et méthode qui vérifie plusieurs chose dans le mot de passe donnée, comme la présence d'un caractère spécial par exemple.
+    \item \textbf{Relations et sémantique :}Cette classe est indépendante mais possède une relation avec le "main", qui l'appelle ponctuellement lorsque l'utilisateur demande un test de sécurité.
+\end{itemize}
+
+\subsection{Classe \texttt{InputVerif}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "InputVerif" contrôle les saisies de l'utilisateur. Elle vérifie que les chaînes de caractères ne contiennent pas de symboles interdits ,comme le séparateur '|', et qu'elles ne sont pas vides.
+    Elle sert à prévenir les bugs et à protéger l'intégrité des fichiers de sauvegarde contre des saisies incorrectes.
+    \item \textbf{Attributs et méthodes principales :}
+    Cette classe possède 5 méthode qui vérifie 5 différents types d'input pour vérifier leur output.
+    \item \textbf{Relations et sémantique :}Elle est utilisée partout dans le programme, notamment par le "main", à chaque fois qu'une information est demandée à l'utilisateur.
+\end{itemize}
+
+\subsection{Classe \texttt{LabelSearch}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}Cette Classe permet a l'utilisateur d'effectuer une recherche pas label, ce qui permet de gagner du temps quand on cherche un mot de passe pour nos réseaux sociaux par exemple, il suffit juste de chercher le label associé plutôt que de rechercher par le nom de l'association.
+    \item \textbf{Attributs et méthodes principales :}
+    Cette classe possède 1 méthode "searchByLabel" qui permet donc d'effectuer une recherche par label.
+    \item \textbf{Relations et sémantique :} Cette classe ne possède aucune relation spécifique.
+\end{itemize}
+
+\subsection{Classe \texttt{Save}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "Save" gère la persistance des données. Elle s'occupe d'écrire toutes les informations , utilisateurs, mots de passe, labels, dans un fichier et de les relire au démarrage de l'application.
+    Elle est essentielle pour conserver les données d'une utilisation à l'autre.
+    \item \textbf{Attributs et méthodes principales :}
+    Cette classe possède une structure "Data" constitué des information nécessaires pour stocker et sauvegarder correctement les données.
+    \item \textbf{Relations et sémantique :}Elle interagit avec toutes les classes de données, User, Mdp, Label, pour pouvoir enregistrer leur contenu.
+\end{itemize}
+
+\subsection{Classe \texttt{AutomaticTest}}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Rôle et responsabilités :}
+    La classe "AutomaticTest" permet de valider le fonctionnement du programme. Elle exécute une série de tests automatiques, création de compte, chiffrement, validation, pour s'assurer que tout fonctionne comme prévu.
+    Elle est utile pour vérifier rapidement qu'aucune régression n'a été introduite après une modification du code.
+    \item \textbf{Attributs et méthodes principales :}
+    Cette classe possède plus de 5 méthode de test afin de tester différente fonction de notre application.
+    \item \textbf{Relations et sémantique :}Elle instancie et utilise les autres classes du projet, User, Mdp, InputVerif, pour tester leurs fonctionnalités.
+\end{itemize}
+
+\newpage
+
+
+\section{Utilisation des outils d’IA}
+
+Nous avons principalement utilisé l’intelligence artificielle afin de mieux comprendre les principes suivants :
+
+\vspace{0.3cm}
+
+\begin{itemize}
+    \item \texttt{l’implémentation de classes}
+    \item \texttt{le fonctionnement d’une méthode virtuelle (ou le polymorphisme)}
+    \item \texttt{l’implémentation des getters et setters, notamment au niveau de leur fonctionnement}
+\end{itemize}
+
+\vspace{0.3cm}
+
+Nous avons également utilisé l’intelligence artificielle au début de notre projet pour nous aider à brainstormer et à trouver des idées de projet ainsi que des fonctionnalités associées.
+
+\vspace{0.3cm}
+
+Nous déclarons sur l’honneur que l’intelligence artificielle n’a pas été utilisée de manière abusive dans le cadre de ce projet. Elle a été employée à des fins instructives et comme support, afin de nous permettre de mener à bien un projet complet, dont nous sommes aujourd’hui capables de comprendre l’intégralité du fonctionnement, réalisé selon les principes de la programmation orientée objet.
+
+\section{Conclusion}
+
+Ce projet constitue une première expérience avec le langage C++ ainsi qu’une première mise en pratique complète de la programmation orientée objet depuis le début de notre licence. Le caractère libre du choix du sujet a rendu ce travail particulièrement motivant, en nous permettant de concevoir une application concrète orientée vers des problématiques de sécurité.
+
+\end{document}

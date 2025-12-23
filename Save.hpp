@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-//constructeur
+
 struct Data {
     std::string name;
     std::string password;

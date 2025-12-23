@@ -14,13 +14,14 @@
 #include <memory>
 
 int main(){
-    User* ActualUser = nullptr;
-    int User_used;
-    std::vector<User> users;
-    std::string nom, mdp, etiquette;
-    std::vector<Label> tag;
+    //Initialisation des variables principales
+    User* ActualUser = nullptr;     //pointeur vers l'utilisateur connecté
+    int User_used;  //index de l'utilisateur dans le vecteur
+    std::vector<User> users;    //liste des comptes
+    std::string nom, mdp, etiquette;    //entrées utilisateur temporaires
+    std::vector<Label> tag;     //liste globale des labels
 
-    users = Import();
+    users = Import();   //charge les utilisateurs depuis la save
 
     bool connexion_successful = false;
     std::string rep_init = "-1";
@@ -38,7 +39,7 @@ int main(){
         std::cout << "0 : Quitter l'application " << '\n';
         std::cout.flush();
 
-        if (!(std::cin >> rep_init)) {
+        if (!(std::cin >> rep_init)) {     //récupération de la réponse
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             rep_init = "-1";
@@ -54,7 +55,7 @@ int main(){
 
             bool compte_existant = false;
             for (const auto& user : users) {
-                if (user.getUsername() == nom) {
+                if (user.getUsername() == nom) {    // vérifie s'il n'y a pas déjà un compte avec ce nom
                     compte_existant = true;
                     std::cout << "Un compte avec ce nom existe deja." << '\n';
                     break;
@@ -64,7 +65,7 @@ int main(){
             if(!compte_existant){
                 std::cout << "Entrez votre mot de passe : " << '\n';
                 std::getline(std::cin, mdp);
-                std::cout.flush();
+                std::cout.flush();              //sinon on créer le nouveau compte
                 users.push_back(User(nom, mdp));
                 std::cout << "Compte cree avec succes !" << '\n';
                 Save(users, tag);
@@ -86,7 +87,7 @@ int main(){
                     User_used = i;
                     ActualUser = &users[i];
                     
-                    if(ActualUser->is2FAEnabled()) {
+                    if(ActualUser->is2FAEnabled()) {    // Si 2FA activée, demande et vérifie le code
                         std::string code2FA;
                         std::string expected2FA = ActualUser->get2FACode();
                         std::cout << "\n--- Authentification 2FA ---" << '\n';
@@ -101,7 +102,7 @@ int main(){
                             break;
                         } else {
                             std::cout << "Code 2FA incorrect !" << '\n';
-                            ActualUser = nullptr;
+                            ActualUser = nullptr;   //on reset si le code 2FA est faux
                             continue;
                         }
                     } else {
@@ -118,7 +119,7 @@ int main(){
             }
 
             rep_home = "-1";
-            while(rep_home != "8"){
+            while(rep_home != "8"){   //boucle principale post-connexion
                 std::cout << "\n--- Bienvenue " << ActualUser->getUsername() << " ---" << '\n';
                 std::cout << "1 : Ajouter un mot de passe " << '\n';
                 std::cout << "2 : Ajouter un label " << '\n';
@@ -145,7 +146,7 @@ int main(){
                     std::getline(std::cin, nom);
 
                     bool found = false;
-                    for(size_t i = 0; i < ActualUser->getMdp().size(); i++){
+                    for(size_t i = 0; i < ActualUser->getMdp().size(); i++){    //empêche l'ajout de doublons pour la même appli
                         if(ActualUser->getMdp()[i].getName()== nom){
                             std::cout << "Attention : Un mot de passe pour cette application existe deja !" << '\n';
                             std::cout << "Supprimer l'ancien mot de passe ou changer le nom de l'application." << '\n';
@@ -159,7 +160,7 @@ int main(){
                     }
                     std::cout << "\nType d'application : " << '\n';
                     std::cout << "1 : Email" << '\n';
-                    std::cout << "2 : Bancaire" << '\n';
+                    std::cout << "2 : Bancaire" << '\n';    //on utilise la fonctionnalité d'application
                     std::cout << "3 : Autre" << '\n';
                     std::cout.flush();
 
@@ -179,7 +180,7 @@ int main(){
                     }
 
                     std::unique_ptr<Application> app = nullptr;
-                    bool app_valide = false;
+                    bool app_valide = false; //indique si les infos d'application sont valides
 
                     if(appType == 1) {
                         std::string email;
@@ -238,6 +239,7 @@ int main(){
                         std::string password_final;
 
                         if(rep_mdp == "2"){
+                            //Génération automatique : longueur 16, inclut les caractères spéciaux
                             password_final = Mdp::mdpgenerator(16, true);
                             std::cout << "Voici votre nouveau mot de passe : " << password_final << '\n';
                         }
@@ -291,7 +293,7 @@ int main(){
                                 if(etiquette == tag[i].getName()){
                                     label_final = tag[i].getName();
                                     found = true;
-                                    break;
+                                    break; //associe le label existant
                                 }
                             }
 
@@ -300,6 +302,7 @@ int main(){
                             }
                         }
 
+                        //Ajout du nouveau mot de passe à l'utilisateur et sauvegarde
                         ActualUser->getMdp().push_back(Mdp(nom, password_final, label_final));
                         std::cout << "Mot de passe ajoute avec succes (chiffre) !" << '\n';
                         Save(users, tag);
@@ -375,6 +378,7 @@ int main(){
                             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                             std::getline(std::cin, recherche);
 
+                            //Recherche par label via l'utilitaire LabelSearch
                             LabelSearch::searchByLabel(ActualUser->getMdp(), recherche);
                         }
 
@@ -387,7 +391,7 @@ int main(){
                     std::getline(std::cin, mdp);
 
                     PasswordTester tester(mdp);
-                    tester.displayReport();
+                    tester.displayReport();     //affiche rapport sur la robustesse du mot de passe testé
 
                     if(tester.isStrong()){
                         std::cout << "Ce mot de passe est ACCEPTABLE !\n";
@@ -429,9 +433,9 @@ int main(){
                         if (std::cin >> index) {
                             if (index >= 0 && index < static_cast<int>(mdpList.size())) {
                                 std::string appName = mdpList[index].getName();
-                                mdpList.erase(mdpList.begin() + index);
+                                mdpList.erase(mdpList.begin() + index);     //on supprime par l'index
                                 std::cout << "Mot de passe de '" << appName << "' supprime avec succes !\n";
-                                Save(users, tag);
+                                Save(users, tag);                           //et on sauvegarde après les modification
                             } else {
                                 std::cout << "Index invalide!\n";
                             }
@@ -508,8 +512,8 @@ int main(){
                         for (size_t i = 0; i < tag.size(); i++) {
                             if (tag[i].getName() == nom) {
                                 tag.erase(tag.begin() + i);
-                                // Supprimer le label des mdp qui l'utilisent (TOUS les utilisateurs)
-                                for (auto& user : users) {  // ← Boucle sur TOUS les users
+                                //Supprimer le label des mdp qui l'utilisent (TOUS les utilisateurs)
+                                for (auto& user : users) {          //mise à jour globale, on enlève le label des mdp
                                     for (auto& mdpItem : user.getMdp()) {
                                         if (mdpItem.getLabel() == nom) {
                                             mdpItem.setLabel("");
